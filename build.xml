@@ -12,15 +12,15 @@
     <property name="main-class"  value="Main"/>
 
     <target name="clean">
-        <delete>
+        <delete includeemptydirs="true">
             <fileset dir="build" includes="**/*"/>
         </delete>
 
-        <delete>
+        <delete includeemptydirs="true">
             <fileset dir="dest" includes="**/*"/>
         </delete>
 
-        <delete>
+        <delete includeemptydirs="true">
             <fileset dir="doc" includes="**/*"/>
         </delete>
     </target>
