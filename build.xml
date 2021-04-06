@@ -1,0 +1,41 @@
+<!--ant config file
+    Autor: Vojtech Fiala <xfiala61>
+    Inspirovano https://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html
+-->
+<project name="IJA-2021" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+    <property name="data.dir"     value="data"/>
+    <property name="build.dir"   value="build"/>
+    <property name="dest.dir" value="dest"/>
+    <property name="doc.dir"     value="doc"/>
+    <property name="main-class"  value="Main"/>
+
+    <target name="clean">
+        <delete>
+            <fileset dir="build" includes="**/*"/>
+        </delete>
+
+        <delete>
+            <fileset dir="dest" includes="**/*"/>
+        </delete>
+
+        <delete>
+            <fileset dir="doc" includes="**/*"/>
+        </delete>
+    </target>
+
+    <target name="compile">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false"/>
+        <jar destfile="${dest.dir}/ija-app.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <target name="run">
+        <java jar="${dest.dir}/ija-app.jar" fork="true"/>
+    </target>
+</project>
