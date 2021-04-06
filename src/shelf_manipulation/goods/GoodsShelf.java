@@ -2,11 +2,12 @@ package src.shelf_manipulation.goods;
 
 public interface GoodsShelf {
 
-    void put(GoodsItem var1);
+    int put(GoodsItem var1);
 
     boolean containsGoods(Goods var1);
 
-    GoodsItem removeAny(Goods var1);
+    GoodsItem removeAny();
 
-    int size(Goods var1);
+    int size();
+
 }
