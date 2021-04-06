@@ -10,10 +10,11 @@ public class StoreShelf implements GoodsShelf {
 
     private Map<String, ArrayList<GoodsItem>> shelf = new HashMap<String, ArrayList<GoodsItem>>();
     private String name;
+    private int max_size = 100;
 
     // Pri inicializaci zadej typ
-    public StoreShelf(String type) {
-        this.name = type;
+    public StoreShelf(Goods type) {
+        this.name = type.getName();
     }
 
     // Privatni funkce na zjistnei typu
@@ -22,11 +23,11 @@ public class StoreShelf implements GoodsShelf {
     }
 
     // Vloz kus zbozi do regalu
-    public int put(GoodsItem item) {
+    public void put(GoodsItem item) {
         String search = item.goods().getName();
         // Jestlize ale vlozene zbozi neodpovida typu zbozi v regalu, dej to volajicimu vedet
         if (search != getShelfType())
-            return 1;
+            throw new ArithmeticException("Neplatny typ zbozi!");
 
         // Pokud je regal prazdny, vytvor novy seznam veci v nem
         if (this.shelf.get(search) == null) {
@@ -36,9 +37,12 @@ public class StoreShelf implements GoodsShelf {
         }
         // Jinak jenom vloz do seznamu veci
         else {
-           this.shelf.get(search).add(item);
+            if (this.size() < 100)
+                this.shelf.get(search).add(item);
+            else {
+                throw new ArithmeticException("Regal je plny!");
+            }
         }
-        return 0;
     }
 
     public boolean containsGoods(Goods goods) {
