@@ -80,5 +80,8 @@ public class CartControl {
         this.position_y = y;
     }
 
-
+    public void Dijkstra() {
+        PathFinder dk = new PathFinder(this.map.getMap(), this.start_x, this.start_y, 0,1);
+        dk.Dijkstra();
+    }
 }
