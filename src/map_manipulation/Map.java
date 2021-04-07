@@ -41,4 +41,8 @@ public class Map {
         this.map[i][k] = 1;
     }
 
+    public int[][] getMap() {
+        return this.map;
+    }
+
 }
