@@ -10,8 +10,7 @@
     <property name="dest.dir" value="dest"/>
     <property name="doc.dir"     value="doc"/>
     <property name="main-class"  value="Main"/>
-    <property name="jfx.dir"
-    value="lib/openjfx-11.0.2_linux-x64_bin-sdk/javafx-sdk-11.0.2/lib/"/>
+    <property name="jfx.dir" value="lib/javafx-sdk-11/lib"/>
 
     <target name="clean">
         <delete includeemptydirs="true">
