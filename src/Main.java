@@ -39,14 +39,6 @@ public class Main extends Application {
 
         cart.Dijkstra();
 
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        primaryStage.setTitle("Title of the window");
-
         button = new Button();
         button.setText("click me");
 
