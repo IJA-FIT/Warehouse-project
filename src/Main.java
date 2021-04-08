@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-// import custom libraries
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
 import src.tests.StoreTests;
@@ -16,19 +15,8 @@ import src.cart.*;
 
 import java.time.LocalDate;
 
-public class Main extends Application {
-
-    Button button;
-
+public class Main {
     public static void main(String[] args) {
-    
-        // start GUI
-        launch(args);
-
-        
-
-
-        // testing implemented classes
         StoreTests test = new StoreTests();
         test.run_tests();
 
@@ -39,14 +27,7 @@ public class Main extends Application {
 
         cart.Dijkstra();
 
-        button = new Button();
-        button.setText("click me");
 
-        StackPane layout = new StackPane();
-        layout.getChildren().add(button);
 
-        Scene scene = new Scene(layout, 300, 250);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 }

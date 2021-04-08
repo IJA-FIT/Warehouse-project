@@ -27,31 +27,180 @@ public class PathFinder {
         this.dest_y = dest_y;
     }
 
-    public String Dijkstra() {
+    private void solve(int x_parent, int y_parent, int x, int y) {
+        // spocitej klice rodice a noveho prvku
+        String coords = this.coords_cnv.convertCoords(x, y);
+        String parent = this.coords_cnv.convertCoords(x_parent, y_parent);
+        // Jestlize prvek jeste neni zpracovany, zpracuj ho
+        if (!this.distances.containsKey(coords)) {
+            int dist = this.distances.get(parent);
+            this.distances.put(coords, dist+1);
+        }
+        // jestlize je, zkontroluj, jestli nova cesta neni levnejsi
+        else {
+            int dist = this.distances.get(parent);
+            int key_val = this.distances.get(coords);
+            if (dist + 1 < key_val) {
+                this.distances.put(coords, dist);
+            }
+        }
+
+        // Jestli je prvek v open, smaz ho
+        int remove = Arrays.asList(this.open).indexOf(coords);
+        if (remove != -1) {
+            this.open = arr.remove(this.open, remove);
+        }
+
+        // Jestli prvek jeste neni v closed, dej ho tam
+        int present_in_closed = Arrays.asList(this.closed).indexOf(coords);
+        if (present_in_closed == -1) {
+            this.closed = arr.append(closed, coords);
+        }
+    }
+    
+    public String[] getPath(String[] path, int dst) {
+        // urci klic pro destinaci a start
+        String destination = this.coords_cnv.convertCoords(this.dest_x, this.dest_y);
+        String start = this.coords_cnv.convertCoords(this.start_x, this.start_y);
+        int dist = -1;
+        // jestli hledana pozice existuje (a je dostupna), ziskej jeji vzdalenost
+        if (this.distances.containsKey(destination)) {
+            dist = this.distances.get(destination);
+        }
+        // jestli neexistuje, je to exception...
+        else {
+            throw new ArithmeticException("Pozice neexistuje!");
+        }
+
+        // Jestlize cilova pozice je startovni pozice, vrat soucasnou pozici (tzn. ze na ni mas zustat)
+        if (destination == start) {
+            path = arr.append(path, start);
+            return path;
+        }
+
+        // aktivni prvek
+        int[] active = coords_cnv.coordsInt(destination);
+        // pridej do cesty destinaci
+        path = arr.append(path, destination);
+        // dokud nejsi na startu, hledej cestu
+        while (dist != 0) {
+            // bugfix
+            if (dist == 1) {
+                break;
+            }
+            // north
+            // zkontroluj, jestli je smer validni
+            if (this.isValid(active[0]-1, active[1])) {
+                // ziskej klic na kontrolu
+                String cmp = this.coords_cnv.convertCoords(active[0]-1, active[1]);
+                // jestlize je hodnota klice mensi nez soucasna vzdalenost, klic je dalsi krok na ceste
+                if (dist > this.distances.get(cmp)) {
+                    path = arr.append(path, cmp);
+                    active = this.coords_cnv.coordsInt(cmp);
+                    dist = this.distances.get(cmp);
+                    continue;
+                }
+            }
+
+            // south
+            if (this.isValid(active[0]+1, active[1])) {
+                String cmp = this.coords_cnv.convertCoords(active[0]+1, active[1]);
+                if (dist > this.distances.get(cmp)) {
+                    path = arr.append(path, cmp);
+                    active = this.coords_cnv.coordsInt(cmp);
+                    dist = this.distances.get(cmp);
+                    continue;
+                }
+            }
+
+           // east
+            if (this.isValid(active[0], active[1]+1)) {
+                String cmp = this.coords_cnv.convertCoords(active[0], active[1]+1);
+                if (dist > this.distances.get(cmp)) {
+                    path = arr.append(path, cmp);
+                    active = this.coords_cnv.coordsInt(cmp);
+                    dist = this.distances.get(cmp);
+                    continue;
+                }
+            }
+
+            // west
+            if (this.isValid(active[0], active[1]-1)) {
+                String cmp = this.coords_cnv.convertCoords(active[0], active[1]-1);
+                if (dist > this.distances.get(cmp)) {
+                    path = arr.append(path, cmp);
+                    active = this.coords_cnv.coordsInt(cmp);
+                    dist = this.distances.get(cmp);
+                    continue;
+                }
+            }
+        }
+        // jestlize je cesta dlouha jak ma byt, pridej jeste start pozici pro uplnost
+        if (path.length == dst) {
+            path = arr.append(path, start);
+        }
+        return path;
+    }
+
+    public String[] Dijkstra() {
         this.convertMap();
 
         // zpracuj zacatek
         if (this.isValidStart()) {
             String coords = this.coords_cnv.convertCoords(this.start_x, this.start_y);
+            int active_counter = 0;
             this.distances.put(coords, 0);  // insert into hash map
             this.closed[0] = coords;        // insert start into closed
             int remove = Arrays.asList(this.open).indexOf(coords);      // find index of the start item
             this.open = arr.remove(this.open, remove);  // remove it from open
-            //this.closed = arr.append(closed, coords);
-            //Arrays.asList(yourArray).contains(yourValue) ispresent
-            for (int i =0; i < this.open.length; i++) {
-                System.out.printf("%s\n", this.open[i]);
-            }
+            int[] active = coords_cnv.coordsInt(coords);
+            
+            // Iteruj, dokud neni open prazdny
             while (this.open.length != 0) {
-                // check 4 sides if exist, if yes, move north
+                // check 4 sides if exist, if yes, move north then others
                 // value = parent(where im coming from) + 1
+
+                // north
+                if (this.isValid(active[0]-1, active[1])) {
+                    this.solve(active[0], active[1], active[0]-1, active[1]);
+                }
+
+                // south
+                if (this.isValid(active[0]+1, active[1])) {
+                    this.solve(active[0], active[1], active[0]+1, active[1]);
+                }
+
+                // east
+                if (this.isValid(active[0], active[1]+1)) {
+                    this.solve(active[0], active[1], active[0], active[1]+1);
+                }
+
+                // west
+                if (this.isValid(active[0], active[1]-1)) {
+                    this.solve(active[0], active[1], active[0], active[1]-1);
+                }
+
+                active_counter++;
+                if (active_counter >= this.closed.length) {
+                    break;
+                }
+                // Dalsi aktivni je 2. v closed
+                active = coords_cnv.coordsInt(this.closed[active_counter]);
             }
+            int dst = this.getDistance(this.coords_cnv.convertCoords(this.dest_x, this.dest_y));
+            System.out.printf("Vzdalenost: %d\n", dst);
+
+            String[] path = new String[0];
+            path = this.getPath(path, dst);
+            int z = 0;
+            for (int i = path.length; i > 0; i--) {
+                System.out.printf("Krok %d: %s\n", z++, path[i-1]);
+            }
+            return path;
         }
-
-
-        MapPrinter mpprt = new MapPrinter();
-        //mpprt.printMap(this.convert_map);
-        return "neco";
+        String[] bad = new String[1];
+        bad[0] = "error";
+        return bad;
     }
 
     private void convertMap() {
@@ -103,17 +252,9 @@ public class PathFinder {
         return false;
     }
 
+    private int getDistance(String key) {
+        return this.distances.get(key);
+    }
+
 
 }
-
-/*
-51155115599
-51155115511
-51155115511
-51155115511
-51155115511
-11111111111
-11111111111
-51155115507
-51155115570
-*/
