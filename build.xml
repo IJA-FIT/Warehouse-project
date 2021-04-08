@@ -26,7 +26,7 @@
         </delete>
     </target>
 
-    <target name="compile">
+    <target name="compile" depends="download">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" modulepath="${jfx.dir}">
         <compilerarg line="--add-modules javafx.controls ${src.dir}/Main.java"/>
         </javac>
@@ -38,9 +38,30 @@
     </target>
 
 
-    <target name="run">
+    <target name="run" depends="compile_test">
         <java jar="${dest.dir}/ija-app.jar" fork="true" modulepath="${jfx.dir}">
         <jvmarg line="--add-modules javafx.controls"/>
         </java>
     </target>
+
+    <target name="compile_test" depends="jar.check" unless="jar.exists">
+        <antcall target="compile"/>
+    </target>
+
+    <target name="jar.check" depends="download">
+        <condition property="jar.exists">
+            <available file="${dest.dir}/ija-app.jar"/>
+        </condition>
+    </target>
+
+    <target name="download" depends="fx.check" unless="fx.exists">
+        <exec executable="lib/get-libs.sh"/>
+    </target>
+
+    <target name="fx.check">
+        <condition property="fx.exists">
+            <available file="${jfx.dir}" type="dir"/>
+        </condition>
+    </target>
+
 </project>
