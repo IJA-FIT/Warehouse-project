@@ -33,17 +33,18 @@ public class PathFinder {
         // zpracuj zacatek
         if (this.isValidStart()) {
             String coords = this.coords_cnv.convertCoords(this.start_x, this.start_y);
-            this.distances.put(coords, 0);
-            this.closed[0] = coords;
-            int remove = Arrays.asList(this.open).indexOf(coords);
-            this.open = arr.remove(this.open, remove);
+            this.distances.put(coords, 0);  // insert into hash map
+            this.closed[0] = coords;        // insert start into closed
+            int remove = Arrays.asList(this.open).indexOf(coords);      // find index of the start item
+            this.open = arr.remove(this.open, remove);  // remove it from open
             //this.closed = arr.append(closed, coords);
             //Arrays.asList(yourArray).contains(yourValue) ispresent
             for (int i =0; i < this.open.length; i++) {
                 System.out.printf("%s\n", this.open[i]);
             }
             while (this.open.length != 0) {
-
+                // check 4 sides if exist, if yes, move north
+                // value = parent(where im coming from) + 1
             }
         }
 
