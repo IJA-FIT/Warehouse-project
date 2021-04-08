@@ -14,7 +14,7 @@ public class Main {
         CartControl cart = new CartControl("8.10");
         CartControl cart2 = new CartControl("8.9");
 
-        cart.gotoPosition(7, 10);
+        //cart.gotoPosition(7, 10);
 
         cart.Dijkstra();
 
