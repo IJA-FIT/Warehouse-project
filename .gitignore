@@ -3,6 +3,7 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
+lib/javafx-sdk-11
 
 # Other files and folders
 .settings/
