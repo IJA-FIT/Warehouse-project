@@ -37,6 +37,12 @@
         </jar>
     </target>
 
+    <target name="doc">
+    <javadoc destdir="${doc.dir}" additionalparam="-author -quiet --ignore-source-errors">
+            <fileset dir="."/>
+        </javadoc>
+    </target>
+
 
     <target name="run" depends="compile_test">
         <java jar="${dest.dir}/ija-app.jar" fork="true" modulepath="${jfx.dir}">

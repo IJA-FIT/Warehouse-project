@@ -1,8 +1,19 @@
+/**
+* <h1>PathFinder</h1>
+* PathFinder slouží k nalezení nejkratší cesty mezi
+* 2 zvolenými body. 
+*
+* @author Vojtěch Fiala <xfiala61>
+*/
+
 package src.cart;
 import java.util.HashMap;
 import src.utils.*;
 import java.util.Arrays;
 
+/**
+ * <h2>PathFinder slouží k nalezení nejkratší cesty mezi 2 body</h2>
+ */
 public class PathFinder {
 
     private int[][] map;
@@ -13,20 +24,35 @@ public class PathFinder {
     private int rows;
     private int cols;
     private int[][] convert_map;
-    public HashMap<String, Integer> distances = new HashMap<String, Integer>();
-    public String[] closed = new String[1];
-    public String[] open = new String[1];
+    private HashMap<String, Integer> distances = new HashMap<String, Integer>();
+    private String[] closed = new String[1];
+    private String[] open = new String[1];
     private Array arr = new Array();
-    CoordsConverter coords_cnv = new CoordsConverter();
+    private MapPrinter map_printer = new MapPrinter();
+    private CoordsConverter coords_cnv = new CoordsConverter();
  
+    /**
+    * <h2>PathFinder Inicializace</h2>
+    * Nastaví atributy a vytvoří ze získané mapy její interní 
+    * zjednodušenou reprezentaci pro ulehčení dalšího zpracování.
+    * @param map 2D array integerů reprezentující mapu.
+    * @param start_x Souřadnice X startovní pozice.
+    * @param start_y Souřadnice Y startovní pozice.
+    * @param dest_x Souřadnice X cílové pozice.
+    * @param dest_y Souřadnice Y cílové pozice.
+    */
     public PathFinder(int[][] map, int start_x, int start_y, int dest_x, int dest_y) {
         this.map = map;
         this.start_x = start_x;
         this.start_y = start_y;
         this.dest_x = dest_x;
         this.dest_y = dest_y;
+        this.convertMap();
     }
 
+    // Zpracuje prvek - spočítá jeho vzdálenost od začátku,
+    // případně aktualizuje, je-li nová hodnota nižší než původni.
+    // Odstraní ze seznamu open, vloží do seznamu closed.
     private void solve(int x_parent, int y_parent, int x, int y) {
         // spocitej klice rodice a noveho prvku
         String coords = this.coords_cnv.convertCoords(x, y);
@@ -58,6 +84,13 @@ public class PathFinder {
         }
     }
     
+    /**
+    * <h2>getPath</h2>
+    * Metoda pro určení nejkratší cesty ze startu do cíle,
+    * @param path Array objektů typu string, do něhož se zapisuje cesta.
+    * @param dst Vzdálenost cílového bodu od počatečního bodu.
+    * @return Nejkratší cesta mezi 2 body.
+    */
     public String[] getPath(String[] path, int dst) {
         // urci klic pro destinaci a start
         String destination = this.coords_cnv.convertCoords(this.dest_x, this.dest_y);
@@ -142,23 +175,26 @@ public class PathFinder {
         return path;
     }
 
+    /**
+    * <h2>Dijkstra</h2>
+    * Za pomoci Dijkstrova algoritmu metoda ohodnotí všechny dostupné lokace na mapě.
+    * Za pomoci těchto spočtených vzdáleností poté určí nejkratší možnou cestu mezi 2 danými body.
+    * @return Array obsahující nejkratší možnou cestu mezi 2 body.
+    */
     public String[] Dijkstra() {
-        this.convertMap();
 
         // zpracuj zacatek
         if (this.isValidStart()) {
             String coords = this.coords_cnv.convertCoords(this.start_x, this.start_y);
             int active_counter = 0;
-            this.distances.put(coords, 0);  // insert into hash map
-            this.closed[0] = coords;        // insert start into closed
-            int remove = Arrays.asList(this.open).indexOf(coords);      // find index of the start item
-            this.open = arr.remove(this.open, remove);  // remove it from open
+            this.distances.put(coords, 0);  // vloz do hash mapy
+            this.closed[0] = coords;        // vloz start do closed
+            int remove = Arrays.asList(this.open).indexOf(coords);      // najdi index soucasneho bodu
+            this.open = arr.remove(this.open, remove);  // ten bod dej pryc z open
             int[] active = coords_cnv.coordsInt(coords);
             
             // Iteruj, dokud neni open prazdny
             while (this.open.length != 0) {
-                // check 4 sides if exist, if yes, move north then others
-                // value = parent(where im coming from) + 1
 
                 // north
                 if (this.isValid(active[0]-1, active[1])) {
@@ -238,8 +274,10 @@ public class PathFinder {
             }
         }
     }
+    
     private boolean isValidStart() {
-        if (this.start_x < this.rows && this.start_x > 0 && this.start_y < this.cols && this.start_y > 0) {
+        if (this.start_x < this.rows && this.start_x >= 0 && this.start_y < this.cols && this.start_y >= 0) {
+            
             return (this.convert_map[this.start_x][this.start_y] == 1);
         }
         return false;

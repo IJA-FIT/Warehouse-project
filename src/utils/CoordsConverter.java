@@ -1,12 +1,37 @@
+/**
+* <h1>CoordsConverter</h1>
+* CoordsConverter zajišťuje konverzi z klíče typu string
+* na 2 hodnoty typu int a zpět.
+* 
+* @author Vojtěch Fiala <xfiala61>
+*/
+
 package src.utils;
 
+/**
+ * <h2>* CoordsConverter zajišťuje konverzi z klíče typu string
+* na 2 hodnoty typu int a zpět.</h2>
+ */
 public class CoordsConverter {
 
+    /**
+    * <h2>converCoords</h2>
+    * Zkonvertuje 2 hodnoty typu int na jejich textovou formu typu String.
+    * @param x Hodnota X, která reprezentuje souřadnici X, jež se má zkonvertovat.
+    * @param y Hodnota Y, která reprezentuje souřadnici Y, jež se má zkonvertovat.
+    * @return Zkonvertovaný string reprezentující souřadnice.
+    */
     public String convertCoords(int x, int y) {
         String coords = Integer.toString(x) + "." + Integer.toString(y);
         return coords;
     }
 
+    /**
+    * <h2>coordsInt</h2>
+    * Zkonvertuje textovou reprezentaci souřadnic na pole integeru se 2 prvky.
+    * @param coords Textová reprezentace souřadnic.
+    * @return Array prvků typu int obsahující 2 prvky - souřadnici X a Y.
+    */
     public int[] coordsInt(String coords) {
         int x = 0;
         int y = 0;

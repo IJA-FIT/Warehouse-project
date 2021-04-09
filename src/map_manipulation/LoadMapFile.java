@@ -1,23 +1,48 @@
+/**
+* <h1>Load Map File</h1>
+* Load Map File načte mapu skladu ze souboru Warehouse.txt 
+* ve složce /data
+*
+* @author Vojtěch Fiala <xfiala61>
+*/
+
 package src.map_manipulation;
 import java.io.File;  
 import java.io.FileNotFoundException; 
 import java.util.Scanner;
 
+/**
+ * <h2>LoadMapFile načte mapu skladu ze souboru Warehouse.txt 
+ * ve složce /data</h2>
+ */
 public class LoadMapFile {
     private int rows = 0;
     private int cols = -5;
     private int map[][];
 
-
+    /**
+    * <h2>LoadMapFile Inicializace</h2>
+    * Získej počet řádků a sloupců mapy a je-li validní, načti ji.
+    */
     public LoadMapFile() {
         this.getMapData();
         this.loadMap();
     }
 
+    /**
+    * <h2>getRows</h2>
+    * Vrací počet řádků v mapě.
+    * @return Počet řádků v mapě.
+    */
     public int getRows() {
         return this.rows;
     }
 
+    /**
+    * <h2>getCols</h2>
+    * Vrací počet sloupců v mapě.
+    * @return Počet sloupců v mapě.
+    */
     public int getCols() {
         return this.cols;
     }
@@ -53,6 +78,11 @@ public class LoadMapFile {
         this.map = new int[this.rows][this.cols];
     }
 
+     /**
+    * <h2>getMap</h2>
+    * Vrací načtenou mapu.
+    * @return Načtená mapa jako 2D array prvků typu integer.
+    */
     public int[][] getMap() {
         return this.map;
     }

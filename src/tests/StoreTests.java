@@ -87,6 +87,7 @@ public class StoreTests {
     public void run_tests() {
         initialize_test_001();
         initialize_test_002();
-        System.out.printf("%d/%d\n", this.correct, this.all);
+        if (this.correct != this.all)
+            System.out.printf("%d/%d, %s\n", this.correct, this.all, "no mas tu problem, fixni ho");
     }
 }
