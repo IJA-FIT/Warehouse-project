@@ -58,5 +58,12 @@ public class Main {
 
         cart.findPath(destination[0], destination[1]);
 
+        // program bude fungovat tak, ze bude fronta, do ktere ja cosi pridam
+        // bude seznam free voziku, pak odjede, zmizi ztama, na zacatku tam budou vvsechny, po navratu na start se tam zas prida
+        // udelat funkci fetch, ktera jestlize je free vozik, assigne mu z fronty prvni prvek (da mu treba stul)
+        // vozik si najde v jakem regalu je stul a jede
+        // vozik tam dojde, nabere item, dojede do cile (hardcoded souradnice cile), vrati se na zacatek.
+        // Pokud je fronta veci k vyrizeni prazdna, zustava. jestli ne, ujme se prvni v poradi a jede dal
+
     }
 }

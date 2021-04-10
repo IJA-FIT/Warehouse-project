@@ -35,11 +35,25 @@
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
         </jar>
+        <antcall target="doc"/>
     </target>
 
     <target name="doc">
-    <javadoc destdir="${doc.dir}" additionalparam="-author -quiet --ignore-source-errors">
+    <javadoc destdir="${doc.dir}" additionalparam="-author -quiet --ignore-source-errors" locale="cs_CZ">
             <fileset dir="."/>
+            <classpath>
+		        <fileset dir="${jfx.dir}">
+		            <include name="javafx.base.jar"/>
+                    <include name="javafx.fxml.jar"/>
+                    <include name="javafx-swt.jar"/>
+                    <include name="javafx.controls.jar"/>
+                    <include name="javafx.graphics.jar"/>
+                    <include name="javafx.media.jar"/>
+                    <include name="javafx.properties"/>
+                    <include name="javafx.swing.jar"/>
+                    <include name="javafx.web.jar"/>
+	        	</fileset>
+	    	</classpath>
         </javadoc>
     </target>
 
