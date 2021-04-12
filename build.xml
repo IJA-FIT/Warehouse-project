@@ -22,7 +22,10 @@
         </delete>
 
         <delete includeemptydirs="true">
-            <fileset dir="doc" includes="**/*"/>
+            <fileset dir="doc">
+            <include name="**/*"/>
+            <exclude name="**/architektura.pdf"/>
+            </fileset>
         </delete>
     </target>
 
@@ -39,7 +42,7 @@
     </target>
 
     <target name="doc">
-    <javadoc destdir="${doc.dir}" additionalparam="-author -quiet --ignore-source-errors" locale="cs_CZ">
+    <javadoc destdir="${doc.dir}" additionalparam="-author --ignore-source-errors">
             <fileset dir="."/>
             <classpath>
 		        <fileset dir="${jfx.dir}">

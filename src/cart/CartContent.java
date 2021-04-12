@@ -17,7 +17,7 @@ import src.shelf_manipulation.goods.GoodsShelf;
  */
 public class CartContent {
 
-    // current ware & shelf its contents it carries
+    // Soucasne zbozi a police
     private GoodsItem ware = null;
     private GoodsShelf shelf = null;
 

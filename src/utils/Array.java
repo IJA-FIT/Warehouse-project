@@ -14,8 +14,6 @@ import java.util.Arrays;
  */
 public class Array {
 
-    // https://www.educative.io/edpresso/how-to-append-to-an-array-in-java
-
     /**
     * <h2>append</h2>
     * Přidá prvek na konec arraye typu String.
@@ -28,8 +26,6 @@ public class Array {
         array[array.length - 1] = value;
         return array;
     }
-
-    // https://stackabuse.com/remove-element-from-an-array-in-java/
 
     /**
     * <h2>remove</h2>

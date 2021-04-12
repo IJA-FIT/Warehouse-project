@@ -28,7 +28,6 @@ public class PathFinder {
     private String[] closed = new String[1];
     private String[] open = new String[1];
     private Array arr = new Array();
-    private MapPrinter map_printer = new MapPrinter();
     private CoordsConverter coords_cnv = new CoordsConverter();
  
     /**

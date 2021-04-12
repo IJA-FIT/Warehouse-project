@@ -20,7 +20,7 @@ public class HashIndexFinder {
     private CoordsConverter cc = new CoordsConverter();
     private MapControl mp = new MapControl();
 
-    // https://stackoverflow.com/a/9009709
+    // inspirovano https://stackoverflow.com/a/9009709
 
     /**
     * <h2>getIndex</h2>
