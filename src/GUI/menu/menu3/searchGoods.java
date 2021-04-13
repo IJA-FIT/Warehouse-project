@@ -11,7 +11,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
-
+/**
+ *  searchGoods zajišťuje zobrazení okna pro vyhledávání zboží
+ */
 public class searchGoods {
 
     public static void display(String title, String message) {

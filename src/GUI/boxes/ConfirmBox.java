@@ -9,6 +9,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+/**
+ *  ConfirmBox je volán pokud je potřeba potvrzení akce od uživatele
+ */
 public class ConfirmBox {
     
     static boolean answer;

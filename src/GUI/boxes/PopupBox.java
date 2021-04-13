@@ -11,6 +11,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+/**
+ *  PopupBox je volán pokaždé když je potřeba jednoduché okno s textovou zprávou
+ */
 public class PopupBox {
         
 
