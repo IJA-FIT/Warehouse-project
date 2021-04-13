@@ -1,5 +1,5 @@
 /**
-* <h1>MapPrinter</h1>
+* MapPrinter
 * MapPrinter zajišťuje tisknutí mapy.
 * 
 * @author Vojtěch Fiala <xfiala61>
@@ -8,12 +8,12 @@
 package src.utils;
 
 /**
- * <h2>Array MapPrinter zajišťuje tisknutí mapy.</h2>
+ * Array MapPrinter zajišťuje tisknutí mapy.
  */
 public class MapPrinter {
     
     /**
-    * <h2>printMap</h2>
+    * printMap
     * Vypíše na standardní výstup mapu.
     * @param map 2D Array typu int reprezentující mapu.
     */

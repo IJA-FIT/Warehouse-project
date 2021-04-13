@@ -1,5 +1,5 @@
 /**
-* <h1>StoreGooods</h1>
+* StoreGooods
 * Implementace třídy Goods.
 * Inspirováno a částečně převzato z vypracování domácího úkolu 1.
 * Úkol 1 vypracoval Vojtěch Fiala <xfiala61>.
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * <h2>Implementace třídy Goods.</h2>
+ * Implementace třídy Goods.
 * Inspirováno a částečně převzato z vypracování domácího úkolu 1.
 * Úkol 1 vypracoval Vojtěch Fiala &lt; xfiala61 &gt;.
  */
@@ -27,7 +27,7 @@ public class StoreGoods implements Goods {
     private ArrayList<GoodsItem> goods_list = new ArrayList<GoodsItem>();
 
     /**
-    * <h2>StoreGoods Inicializace</h2>
+    * StoreGoods Inicializace
     * Nastaví název typu zboží.
     * @param get_name Název typu zboží.
     */
@@ -36,7 +36,7 @@ public class StoreGoods implements Goods {
     }
     
     /**
-    * <h1>getName</h1>
+    * getName
     * Metoda pro získání názvu typu zboží.
     * @return Název typu zboží.
     */
@@ -45,7 +45,7 @@ public class StoreGoods implements Goods {
     }
 
     /**
-    * <h1>addItem</h1>
+    * addItem
     * Přidá konkrétní položku pod tento typ zboží.
     * @param goodsItem Konkrétní položka.
     * @return Výsledek operace.
@@ -55,7 +55,7 @@ public class StoreGoods implements Goods {
     }
 
     /**
-    * <h1>newItem</h1>
+    * newItem
     * Vytvoří novou konkrétní položku tohoto typu zboží.
     * @param localDate Současný čas typu LocalDate.
     * @return Odkaz na vytvořený prvek.
@@ -67,7 +67,7 @@ public class StoreGoods implements Goods {
     }
 
     /**
-    * <h1>remove</h1>
+    * remove
     * Odstraní konkrétní položku z tohoto typu zboží.
     * @param goodsItem Konkrétní položka.
     * @return Výsledek operace.
@@ -77,7 +77,7 @@ public class StoreGoods implements Goods {
     }
     
     /**
-    * <h1>empty</h1>
+    * empty
     * Zjistí, zda-li nějaká položka tohoto typu existuje.
     * @return Výsledek operace.
     */
@@ -86,7 +86,7 @@ public class StoreGoods implements Goods {
     }
 
     /**
-    * <h1>size</h1>
+    * size
     * Zjistí počet konkrétních položek typu.
     * @return Počet položek.
     */

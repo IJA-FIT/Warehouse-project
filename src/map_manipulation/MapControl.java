@@ -1,5 +1,5 @@
 /**
-* <h1>Map Control</h1>
+* Map Control
 * Map Control zajišťuje operace nad načtenou mapou skladu.
 *
 * @author Vojtěch Fiala <xfiala61>
@@ -8,7 +8,7 @@
 package src.map_manipulation;
 
 /**
- * <h2>MapControl zajišťuje operace nad načtenou mapou skladu.</h2>
+ * MapControl zajišťuje operace nad načtenou mapou skladu.
  */
 public class MapControl {
 
@@ -16,7 +16,7 @@ public class MapControl {
     private static int map[][];
 
     /**
-    * <h2>MapControl Inicializace</h2>
+    * MapControl Inicializace
     * Získej načtenou mapu pro další zpracovávání.
     */
     public MapControl() {
@@ -24,7 +24,7 @@ public class MapControl {
     }
 
     /**
-    * <h2>setItem</h2>
+    * setItem
     * Nastaví daný prvek v mapě na danou hodnotu.
     * @param x Souřadnice X prvku, který se má nastavit. 
     * @param y Souřadnice Y prvku, který se má nastavit.
@@ -36,7 +36,7 @@ public class MapControl {
 
 
     /**
-    * <h2>getItem</h2>
+    * getItem
     * Získá hodnotu daného prvku.
     * @param x Souřadnice X prvku, jehož hodnota se má získat. 
     * @param y Souřadnice Y prvku, jehož hodnota se má získat.
@@ -47,7 +47,7 @@ public class MapControl {
     }
 
     /**
-    * <h2>insertObstacles</h2>
+    * insertObstacles
     * Vloží překážku na dané místo v mapě.
     * @param x Souřadnice X prvku, kam se má překážka vložit. 
     * @param y Souřadnice Y prvku, kam se má překážka vložit.
@@ -62,7 +62,7 @@ public class MapControl {
     }
 
     /**
-    * <h2>removeObstacles</h2>
+    * removeObstacles
     * Odstraní překážku z daného místa v mapě.
     * @param x Souřadnice X prvku, odkud se má překážka odstranit. 
     * @param y Souřadnice Y prvku, odkud se má překážka odstranit.
@@ -72,7 +72,7 @@ public class MapControl {
     }
 
     /**
-    * <h2>getMap</h2>
+    * getMap
     * Vrátí načtenou mapu skladu.
     * @return Mapa skladu reprezentovaná jako 2D array prvků typu integer.
     */
@@ -81,7 +81,7 @@ public class MapControl {
     }
 
     /**
-    * <h2>exists</h2>
+    * exists
     * Zjistí, jestli dané souřadnice náleží do mapy.
     * @param x Souřadnice X místa, které chceme vědět, jestli se v mapě nachází.
     * @param y Souřadnice Y místa, které chceme vědět, jestli se v mapě nachází.
@@ -92,6 +92,10 @@ public class MapControl {
             return true;
         }
         return false;
+    }
+
+    public int getNumberOfRegals() {
+        return load_map.getNumberOfShelves();
     }
 
 }

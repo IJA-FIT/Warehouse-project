@@ -1,5 +1,5 @@
 /**
-* <h1>Array</h1>
+* Array
 * Array zajišťuje operace nad arrayi typu String.
 * 
 * @author Vojtěch Fiala <xfiala61>
@@ -10,12 +10,12 @@ package src.utils;
 import java.util.Arrays;
 
 /**
- * <h2>Array zajišťuje operace nad arrayi typu String.</h2>
+ * Array zajišťuje operace nad arrayi typu String.
  */
 public class Array {
 
     /**
-    * <h2>append</h2>
+    * append
     * Přidá prvek na konec arraye typu String.
     * @param array Array, ke kterému se má prvek přidat.
     * @param value Prvek, který se má přidat.
@@ -28,7 +28,7 @@ public class Array {
     }
 
     /**
-    * <h2>remove</h2>
+    * remove
     * Odstraní prvek na dané pozici z arraye typu String.
     * @param array Array, ze kterého se má prvek odstranit.
     * @param index Index prvku, který se má odstranit.

@@ -1,5 +1,5 @@
 /**
-* <h1>CoordsConverter</h1>
+* CoordsConverter
 * CoordsConverter zajišťuje konverzi z klíče typu string
 * na 2 hodnoty typu int a zpět.
 * 
@@ -9,13 +9,13 @@
 package src.utils;
 
 /**
- * <h2>* CoordsConverter zajišťuje konverzi z klíče typu string
-* na 2 hodnoty typu int a zpět.</h2>
+ * * CoordsConverter zajišťuje konverzi z klíče typu string
+* na 2 hodnoty typu int a zpět.
  */
 public class CoordsConverter {
 
     /**
-    * <h2>converCoords</h2>
+    * converCoords
     * Zkonvertuje 2 hodnoty typu int na jejich textovou formu typu String.
     * @param x Hodnota X, která reprezentuje souřadnici X, jež se má zkonvertovat.
     * @param y Hodnota Y, která reprezentuje souřadnici Y, jež se má zkonvertovat.
@@ -27,7 +27,7 @@ public class CoordsConverter {
     }
 
     /**
-    * <h2>coordsInt</h2>
+    * coordsInt
     * Zkonvertuje textovou reprezentaci souřadnic na pole integeru se 2 prvky.
     * @param coords Textová reprezentace souřadnic.
     * @return Array prvků typu int obsahující 2 prvky - souřadnici X a Y.

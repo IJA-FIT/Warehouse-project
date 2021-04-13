@@ -1,5 +1,5 @@
 /**
-* <h1>Goods</h1>
+* Goods
 * Goods představují rozhraní typu zboží.
 * Inspirováno domácím úkolem č.1.
 * 
@@ -10,20 +10,20 @@ package src.shelf_manipulation.goods;
 import java.time.LocalDate;
 
 /**
- * <h2>Goods představují rozhraní typu zboží.</h2>
+ * Goods představují rozhraní typu zboží.
  * Inspirováno domácím úkolem č.1.
  */
 public interface Goods {
 
     /**
-    * <h1>getName</h1>
+    * getName
     * Metoda pro získání názvu typu zboží.
     * @return Název typu zboží.
     */
     String getName();
 
     /**
-    * <h1>addItem</h1>
+    * addItem
     * Přidá konkrétní položku pod tento typ zboží.
     * @param var1 Konkrétní položka.
     * @return Výsledek operace.
@@ -31,7 +31,7 @@ public interface Goods {
     boolean addItem(GoodsItem var1);
 
     /**
-    * <h1>newItem</h1>
+    * newItem
     * Vytvoří novou konkrétní položku tohoto typu zboží.
     * @param var1 Současný čas typu LocalDate.
     * @return Odkaz na vytvořený prvek.
@@ -39,7 +39,7 @@ public interface Goods {
     GoodsItem newItem(LocalDate var1);
 
     /**
-    * <h1>remove</h1>
+    * remove
     * Odstraní konkrétní položku z tohoto typu zboží.
     * @param var1 Konkrétní položka.
     * @return Výsledek operace.
@@ -47,14 +47,14 @@ public interface Goods {
     boolean remove(GoodsItem var1);
 
     /**
-    * <h1>empty</h1>
+    * empty
     * Zjistí, zda-li nějaká položka tohoto typu existuje.
     * @return Výsledek operace.
     */
     boolean empty();
 
     /**
-    * <h1>size</h1>
+    * size
     * Zjistí počet konkrétních položek typu.
     * @return Počet položek.
     */

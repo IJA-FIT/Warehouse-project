@@ -1,5 +1,5 @@
 /**
-* <h1>Load Map File</h1>
+* Load Map File
 * Load Map File načte mapu skladu ze souboru Warehouse.txt 
 * ve složce /data
 *
@@ -12,16 +12,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * <h2>LoadMapFile načte mapu skladu ze souboru Warehouse.txt 
- * ve složce /data</h2>
+ * LoadMapFile načte mapu skladu ze souboru Warehouse.txt 
+ * ve složce /data
  */
 public class LoadMapFile {
     private int rows = 0;
     private int cols = -5;
     private int map[][];
+    private int shelf_count = 0;
 
     /**
-    * <h2>LoadMapFile Inicializace</h2>
+    * LoadMapFile Inicializace
     * Získej počet řádků a sloupců mapy a je-li validní, načti ji.
     */
     public LoadMapFile() {
@@ -30,7 +31,7 @@ public class LoadMapFile {
     }
 
     /**
-    * <h2>getRows</h2>
+    * getRows
     * Vrací počet řádků v mapě.
     * @return Počet řádků v mapě.
     */
@@ -39,7 +40,7 @@ public class LoadMapFile {
     }
 
     /**
-    * <h2>getCols</h2>
+    * getCols
     * Vrací počet sloupců v mapě.
     * @return Počet sloupců v mapě.
     */
@@ -79,12 +80,16 @@ public class LoadMapFile {
     }
 
      /**
-    * <h2>getMap</h2>
+    * getMap
     * Vrací načtenou mapu.
     * @return Načtená mapa jako 2D array prvků typu integer.
     */
     public int[][] getMap() {
         return this.map;
+    }
+
+    public int getNumberOfShelves() {
+        return this.shelf_count;
     }
 
     private void loadMap() {
@@ -97,6 +102,9 @@ public class LoadMapFile {
                 String data = myReader.nextLine();
                 for (int i = 0; i < data.length(); i++) {
                     this.map[current_row][i] = Integer.parseInt(Character.toString(data.charAt(i)));
+                    if (this.map[current_row][i] == 5) {
+                        this.shelf_count++;
+                    } 
                 }
                 current_row++;
             }

@@ -1,5 +1,5 @@
 /**
-* <h1>StoreShelf</h1>
+* StoreShelf
 * Implementace třídy GoodsShelf.
 * Inspirováno a částečně převzato z vypracování domácího úkolu 1.
 * Úkol 1 vypracoval Vojtěch Fiala <xfiala61>.
@@ -16,7 +16,7 @@ import src.shelf_manipulation.goods.GoodsShelf;
 import java.util.*;
 
 /**
- * <h2>Implementace třídy GoodsShelf.</h2>
+ * Implementace třídy GoodsShelf.
 * Inspirováno a částečně převzato z vypracování domácího úkolu 1.
 * Úkol 1 vypracoval Vojtěch Fiala &lt; xfiala61 &gt;.
  */
@@ -27,7 +27,7 @@ public class StoreShelf implements GoodsShelf {
     private int max_size = 100;
 
     /**
-    * <h2>StoreShelf Inicializace</h2>
+    * StoreShelf Inicializace
     * Nastaví typ zboží v polici.
     * Regál může obsahovat jen 1 typ zboží.
     * @param type Název typu zboží.
@@ -38,7 +38,7 @@ public class StoreShelf implements GoodsShelf {
     }
 
     /**
-    * <h2>getShelfType</h2>
+    * getShelfType
     * Metoda pro zjištění názvu typu zboží, které se do regálu ukládá.
     * @return Typ zboží.
     */
@@ -48,7 +48,7 @@ public class StoreShelf implements GoodsShelf {
     }
 
     /**
-    * <h2>put</h2>
+    * put
     * Vloží položku do regálu.
     * @param item Konkrétní položka správného typu.
     */
@@ -76,7 +76,7 @@ public class StoreShelf implements GoodsShelf {
     }
 
     /**
-    * <h2>containsGoods</h2>
+    * containsGoods
     * Metoda pro zjištění, zda-li položka obsahuje daný typ zboží.
     * @param goods Typ zboží.
     * @return True/False v závislosti na výsledku.
@@ -87,7 +87,7 @@ public class StoreShelf implements GoodsShelf {
     }
 
     /**
-    * <h2>removeAny</h2>
+    * removeAny
     * Metoda pro odstranění položky z regálu.
     * @return Odstraněná položka.
     */
@@ -104,7 +104,7 @@ public class StoreShelf implements GoodsShelf {
     }
 
     /**
-    * <h2>size</h2>
+    * size
     * Metoda pro zjištění počtu položek v regálu.
     * @return Počet položek.
     */

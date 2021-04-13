@@ -1,5 +1,5 @@
 /**
-* <h1>PathFinder</h1>
+* PathFinder
 * PathFinder slouží k nalezení nejkratší cesty mezi
 * 2 zvolenými body. 
 *
@@ -12,7 +12,7 @@ import src.utils.*;
 import java.util.Arrays;
 
 /**
- * <h2>PathFinder slouží k nalezení nejkratší cesty mezi 2 body</h2>
+ * PathFinder slouží k nalezení nejkratší cesty mezi 2 body
  */
 public class PathFinder {
 
@@ -24,6 +24,7 @@ public class PathFinder {
     private int rows;
     private int cols;
     private int[][] convert_map;
+    private int distance;
     private HashMap<String, Integer> distances = new HashMap<String, Integer>();
     private String[] closed = new String[1];
     private String[] open = new String[1];
@@ -31,7 +32,7 @@ public class PathFinder {
     private CoordsConverter coords_cnv = new CoordsConverter();
  
     /**
-    * <h2>PathFinder Inicializace</h2>
+    * PathFinder Inicializace
     * Nastaví atributy a vytvoří ze získané mapy její interní 
     * zjednodušenou reprezentaci pro ulehčení dalšího zpracování.
     * @param map 2D array integerů reprezentující mapu.
@@ -84,7 +85,7 @@ public class PathFinder {
     }
     
     /**
-    * <h2>getPath</h2>
+    * getPath
     * Metoda pro určení nejkratší cesty ze startu do cíle,
     * @param path Array objektů typu string, do něhož se zapisuje cesta.
     * @param dst Vzdálenost cílového bodu od počatečního bodu.
@@ -175,7 +176,7 @@ public class PathFinder {
     }
 
     /**
-    * <h2>Dijkstra</h2>
+    * Dijkstra
     * Za pomoci Dijkstrova algoritmu metoda ohodnotí všechny dostupné lokace na mapě.
     * Za pomoci těchto spočtených vzdáleností poté určí nejkratší možnou cestu mezi 2 danými body.
     * @return Array obsahující nejkratší možnou cestu mezi 2 body.
@@ -223,14 +224,9 @@ public class PathFinder {
                 active = coords_cnv.coordsInt(this.closed[active_counter]);
             }
             int dst = this.getDistance(this.coords_cnv.convertCoords(this.dest_x, this.dest_y));
-            System.out.printf("Vzdalenost: %d\n", dst);
 
             String[] path = new String[0];
             path = this.getPath(path, dst);
-            int z = 0;
-            for (int i = path.length; i > 0; i--) {
-                System.out.printf("Krok %d: %s\n", z++, path[i-1]);
-            }
             return path;
         }
         String[] bad = new String[1];
@@ -289,7 +285,13 @@ public class PathFinder {
         return false;
     }
 
-    private int getDistance(String key) {
+    /**
+    * getDistance
+    * Metoda získá vzdálenost mezi počátkem a cílem.
+    * @param key Zakódované souřadnice cíle, k němuž vzdálenost chceme.
+    * @return Vzdálenost k cíli
+    */
+    public int getDistance(String key) {
         return this.distances.get(key);
     }
 

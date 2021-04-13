@@ -1,5 +1,5 @@
 /**
-* <h1>ShelfManipulator</h1>
+* ShelfManipulator
 * ShelfManipulator zajišťuje operace s regálem.
 * 
 * @author Vojtěch Fiala <xfiala61>
@@ -15,12 +15,12 @@ import src.map_manipulation.*;
 import java.util.HashMap;
 
 /**
- * <h2>Goods ShelfManipulator zajišťuje operace s regálem.</h2>
+ * Goods ShelfManipulator zajišťuje operace s regálem.
  */
 public class ShelfManipulator {
 
     /**
-    * <h2>shelf_map představuje seznam regálů a jejich souřadnic.</h2>
+    * shelf_map představuje seznam regálů a jejich souřadnic.
     */
     public static HashMap<String, GoodsShelf> shelf_map = new HashMap<String, GoodsShelf>();
     private String id;
@@ -29,7 +29,7 @@ public class ShelfManipulator {
     private MapControl map = new MapControl();
     
     /**
-    * <h2>ShelfManipulator Inicializace</h2>
+    * ShelfManipulator Inicializace
     * Nastaví souřadnice, na kterých se regál nachází.
     * @param id Souřadnice v zkonvertované textové podobě.
     * @param shelf Regál, jež se má na daných souřadnicích vyskytovat.
@@ -49,12 +49,20 @@ public class ShelfManipulator {
     }
 
     /**
-    * <h2>getPosition</h2>
+    * getPosition
     * Vrátí souřadnice, na kterých se regál nachází.
     * @return Souřadnice regálu v textové podobě.
     */
     public String getPosition() {
         return this.id;
+    }
+
+    public int getNumberOfFullRegals() {
+        return this.shelf_map.size();
+    }
+
+    public int getNumberOfAllRegals() {
+        return this.map.getNumberOfRegals();
     }
 
 }

@@ -1,5 +1,5 @@
 /**
-* <h1>Cart Content</h1>
+* Cart Content
 * Cart Content pokrývá funkce sloužící pro práci
 * s nákladem vozíku.
 *
@@ -13,7 +13,7 @@ import src.shelf_manipulation.goods.GoodsShelf;
 
 
 /**
- * <h2>CartContent je třída pracující nad operacemi s obsahem vozíku</h2>
+ * CartContent je třída pracující nad operacemi s obsahem vozíku
  */
 public class CartContent {
 
@@ -23,7 +23,7 @@ public class CartContent {
 
 
     /**
-     * <h2>getWare</h2>
+     * getWare
      * Metoda pro získání aktuální položky na vozíku.
      * @return GoodsItem Aktuální položka na vozíku.
      */
@@ -32,7 +32,7 @@ public class CartContent {
     }
 
     /**
-     * <h2>setShelf</h2>
+     * setShelf
      * Metoda pro nastavení zpracovávané police.
      * @param shelf Police, se kterou vozík pracuje.
      */
@@ -41,7 +41,7 @@ public class CartContent {
     }
 
     /**
-     * <h2>loadItem</h2>
+     * loadItem
      * Metoda pro odebrání položky z police a naložení na vozík.
      */
     public void loadItem() {
@@ -50,7 +50,7 @@ public class CartContent {
     }
 
     /**
-     * <h2>unloadItem</h2>
+     * unloadItem
      * Metoda pro odebrání položky z vozíku a její "prodej" (celkové odebrání položky ze skladu).
      */
     public void unloadItem() {
