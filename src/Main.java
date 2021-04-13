@@ -9,9 +9,9 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
