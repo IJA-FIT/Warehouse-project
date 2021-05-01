@@ -26,8 +26,8 @@ public class PathFinder {
     private int[][] convert_map;
     private int distance;
     private HashMap<String, Integer> distances = new HashMap<String, Integer>();
-    private String[] closed = new String[1];
-    private String[] open = new String[1];
+    private String[] closed = new String[0];
+    private String[] open = new String[0];
     private Array arr = new Array();
     private CoordsConverter coords_cnv = new CoordsConverter();
  
@@ -168,10 +168,8 @@ public class PathFinder {
                 }
             }
         }
-        // jestlize je cesta dlouha jak ma byt, pridej jeste start pozici pro uplnost
-        if (path.length == dst) {
-            path = arr.append(path, start);
-        }
+        // Pro uplnost pridej jeste zacatek
+        path = arr.append(path, start);
         return path;
     }
 
@@ -188,7 +186,7 @@ public class PathFinder {
             String coords = this.coords_cnv.convertCoords(this.start_x, this.start_y);
             int active_counter = 0;
             this.distances.put(coords, 0);  // vloz do hash mapy
-            this.closed[0] = coords;        // vloz start do closed
+            this.arr.append(closed,coords);        // vloz start do closed
             int remove = Arrays.asList(this.open).indexOf(coords);      // najdi index soucasneho bodu
             this.open = arr.remove(this.open, remove);  // ten bod dej pryc z open
             int[] active = coords_cnv.coordsInt(coords);
@@ -234,35 +232,35 @@ public class PathFinder {
         return bad;
     }
 
+    private void fillConvert() {
+        int[][] new_cnv = new int[this.map.length][this.map[0].length];
+        for (int i = 0; i < this.map.length; i++) {
+            for (int k = 0; k < this.map[0].length; k++) {
+                new_cnv[i][k] = this.map[i][k];
+            }
+        }
+        this.convert_map = new_cnv;
+    }
+
     private void convertMap() {
         this.rows = this.map.length;
-        boolean flag = true;
         this.cols = this.map[0].length;
-        this.convert_map = this.map;
+        this.fillConvert();
         for (int i = 0; i < this.rows; i++) {
             for (int k = 0; k < this.cols; k++) {
+                // V convert mape je cesta, start a cil voziku 0
                 if (this.map[i][k] == 0 || this.map[i][k] == 1 || this.map[i][k] == 9) {
                     convert_map[i][k] = 0;
-                    if (flag) {
-                        this.open[0] = this.coords_cnv.convertCoords(i, k);
-                    }
-                    else {
-                        String coords = this.coords_cnv.convertCoords(i, k);
-                        this.open = arr.append(open, coords);
-                    }
-                    flag = false;
+                    String coords = this.coords_cnv.convertCoords(i, k);
+                    this.open = arr.append(open, coords);
                 }
+                // Vozik je 1
                 else if (this.map[i][k] == 7) {
-                    if (flag) {
-                        this.open[0] = this.coords_cnv.convertCoords(i, k);
-                    }
-                    else {
-                        String coords = this.coords_cnv.convertCoords(i, k);
-                        this.open = arr.append(open, coords);
-                    }
-                    flag = false;
+                    String coords = this.coords_cnv.convertCoords(i, k);
+                    this.open = arr.append(open, coords);
                     convert_map[i][k] = 1;
                 }
+                // Prekazka (a taky treba regal) je 9
                 else {
                     convert_map[i][k] = 9;
                 }
@@ -280,7 +278,8 @@ public class PathFinder {
 
     private boolean isValid(int x, int y) {
         if (x < this.rows && x >= 0 && y < this.cols && y >= 0) {
-            return (this.convert_map[x][y] == 0);
+            // Ve zkonvertovane mape jsou validni 2 veci -- Cesta a jiny vozik (Projedou kolem sebe, hehe)
+            return (this.convert_map[x][y] == 0 || this.convert_map[x][y] == 1);
         }
         return false;
     }

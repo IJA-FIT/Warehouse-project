@@ -20,14 +20,16 @@ import src.utils.*;
 import src.map_manipulation.MapControl;
 
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
 
 /**
  * Demonstrační třída sloužící k ukázce současné funkcionality programu.
  */
 public class Main {
 
-
     public static void main(String[] args) {
+        WaitList wait_list = new WaitList();
         CoordsConverter cnv = new CoordsConverter();
         HashIndexFinder fnd = new HashIndexFinder();
         MapControl map = new MapControl();
@@ -98,7 +100,7 @@ public class Main {
         ShelfManipulator regal5 = new ShelfManipulator("4.0", shelf5);
         ShelfManipulator regal6 = new ShelfManipulator("7.0", shelf6);
         ShelfManipulator regal7 = new ShelfManipulator("8.0", shelf7);
-        ShelfManipulator regal8 = new ShelfManipulator("0.3", shelf8);
+        ShelfManipulator regal8 = new ShelfManipulator("0.4", shelf8);
 
         // Najdi v seznamu regalu typ zbozi a vrat jeho pozici
         String key = fnd.getIndex(regal.shelf_map, "Kuchynsky stul");
@@ -112,40 +114,86 @@ public class Main {
 
         // Ziskej mapu skladu pro zobrazeni
         int[][] warehouse_map = map.getMap();
+        int[] pos;
 
-        System.out.printf("******************************************************\n");
-        System.out.printf("Konzolova demonstrace funkcionality programu - Ukol 2\n");
-        System.out.printf("******************************************************\n");
-        System.out.printf("Mapa skladu, kde:\t5 = regal\t1 = cesta\t9 = vydej\n");
-        System.out.printf("\t\t\t0 = start voziku\t\t7 = vozik\n");
+        // Pridani polozek do wait_listu (listu, co maji voziky dovest)
+        wait_list.WaitList_Add("Pohovka");
+        wait_list.WaitList_Add("Postel");
+        // Vytisk originalni mapy
         mpp.printMap(warehouse_map);
-        System.out.printf("******************************************************\n");
-        System.out.printf("Pocet regalu se zbozim: %d. Pocet regalu ve skladu: %d.\n", regal.getNumberOfFullRegals(), regal.getNumberOfAllRegals());
-        System.out.printf("******************************************************\n");
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t", key, regal.shelf_map.get(key).getShelfType(), regal.shelf_map.get(key).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t\n", key2, regal.shelf_map.get(key2).getShelfType(), regal.shelf_map.get(key2).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t", key3, regal.shelf_map.get(key3).getShelfType(), regal.shelf_map.get(key3).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t\n", key4, regal.shelf_map.get(key4).getShelfType(), regal.shelf_map.get(key4).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t", key5, regal.shelf_map.get(key5).getShelfType(), regal.shelf_map.get(key5).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t\n", key6, regal.shelf_map.get(key6).getShelfType(), regal.shelf_map.get(key6).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t", key7, regal.shelf_map.get(key7).getShelfType(), regal.shelf_map.get(key7).size());
-        System.out.printf("Typ zbozi v regalu na pozici %s je %s. Pocet kusu: %d.\t\t\n", key8, regal.shelf_map.get(key8).getShelfType(), regal.shelf_map.get(key8).size());
-        System.out.printf("******************************************************\n");
 
-        // Najdi v seznamu regalu typ zbozi a vrat pozici, na kterou pro nej ma vozik dojet
-        String dest = fnd.getDestination(regal.shelf_map, "Pohovka");
-        int[] destination = cnv.coordsInt(dest);
+        // ukoncuju jenom kdyz vozik "dojede", coz je jen kvuli testum
+        while (true) {
+            
+            // Pokud bylo zadano, ze se ma nejake zbozi dovest
+            if (wait_list.WaitList_Len() > 0) {
+                // A zaroven je volny vozik
+                if (cart.free_carts.size() > 0) {
+                    // Tak vyber prvni ze seznamu volnych voziku, ktery tohle zbozi odveze
+                    CartControl active = cart.free_carts.get(0);
+                    cart.free_carts.remove(active); // odstran ho ze seznamu volnych
+                    String dest = fnd.getDestination(regal.shelf_map, wait_list.WaitList[0]); // Ziskej souradnice, kam ma vozik dojet
+                    int[] destination = cnv.coordsInt(dest);    // zkonvertuj je
+                    active.current_path = active.findPath(destination[0], destination[1]);  // Spocitej pocatecni cestu
+                    wait_list.WaitList_Remove_First();  // Smaz z wait_listu zbozi, co vozik zpracovava
+                }
+            }
 
-        // Spocitej cestu ke zbozi
-        String[] path = cart.findPath(destination[0], destination[1]);
+            // Tady bude nejspis funkce, ktera tohle zahrne a nebo 5x tentyz kod :)
+            // Zkontroluj, jestli ma vozik vubec nekam jet a nebo je volny
+            if (cart.current_path != null) {
+                // Zkontroluj, ze cesta je delsi nez 0
+                if (cart.current_path.length > 0) {
+                    pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
+                    cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
+                    int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
+                    cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-        // Vysli vozik na cestu, vypis vzdalenost a nejkratsi moznou cestu
-        int distance = cart.getDistance(dest);
-        String start = cart.getStart();
+                    System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+                    // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
+                    if (cart.current_path.length > 1) {
+                        // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
+                        if (cart.current_path[0].equals(cart.current_path[1])) {
+                            System.out.print("Vozik1 dorazil do cile\n");
+                            break;
+                        }
+                    }
+                }
+            }
+            // problem, ze se spatne uklada originalni hodnota bodu a nahrazuje se druhym vozikem kdyz jdou pres sebe
+            if (cart2.current_path != null) {
+                if (cart2.current_path.length > 0) {
+                    pos = cnv.coordsInt(cart2.current_path[cart2.current_path.length-2]);
+                    cart2.gotoPosition(pos[0], pos[1]);
+                    int[] target_refresh = cnv.coordsInt(cart2.current_path[0]);
+                    cart2.current_path = cart2.findPath(target_refresh[0], target_refresh[1]);
 
-        System.out.printf("Vzdalenost od startu %s k cili %s: %d\n", start, dest, distance);
-        System.out.printf("******************************************************\n");
-        System.out.printf("Cesta ze startu %s k cili %s je nasledujici: \n", start, dest);
-        cart.printPath(path);
+                    System.out.println(Arrays.toString(cart2.current_path));
+                    if (cart2.current_path.length > 1) {
+                        if (cart2.current_path[0].equals(cart2.current_path[1])) {
+                            System.out.print("Vozik2 dorazil do cile\n");
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Provizorni ghetto verze zpozdeni v milisekundach
+            try { 
+                TimeUnit.MILLISECONDS.sleep(200);
+            }
+            // Nevim proc tu ten catch je, ale bez nej to nejde
+            catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+
+            // Vytiskni updatnutou mapu
+            System.out.printf("************\n");
+            mpp.printMap(warehouse_map);
+        }
+
+        // Vytiskni mapu naposled
+        System.out.printf("************\n");
+        mpp.printMap(warehouse_map);
     }
 }

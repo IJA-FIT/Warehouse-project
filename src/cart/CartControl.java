@@ -10,6 +10,7 @@ package src.cart;
 
 import src.map_manipulation.MapControl;
 import src.utils.CoordsConverter;
+import java.util.ArrayList;
 
 /**
  * CartControl je třída pracující nad operacemi s pohybem vozíku
@@ -24,6 +25,8 @@ public class CartControl {
     private static MapControl map = new MapControl();
     private CoordsConverter cnv = new CoordsConverter();
     private PathFinder dk;
+    public static ArrayList<CartControl> free_carts = new ArrayList<CartControl>();
+    public String[] current_path;
 
     /**
     * CartControl Inicializace
@@ -44,6 +47,7 @@ public class CartControl {
         else {
             throw new ArithmeticException("Na tuto pozici nelze vozik umistit!");
         }
+        free_carts.add(this);
     }
 
     /**
@@ -62,7 +66,8 @@ public class CartControl {
     }
 
     private void cartMoveCheck() {
-        if (this.last_position_orig == 0 || this.last_position_orig == 1) {
+        // Muze projet jen skrz start, cestu a jiny vozik
+        if (this.last_position_orig == 0 || this.last_position_orig == 1 || this.last_position_orig == 7) {
             this.last_position_orig = map.getItem(this.position_x, this.position_y);
             map.setItem(this.position_x, this.position_y, 7);
         }
