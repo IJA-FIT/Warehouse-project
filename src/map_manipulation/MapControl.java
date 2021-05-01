@@ -14,13 +14,14 @@ public class MapControl {
 
     private static LoadMapFile load_map = new LoadMapFile();
     private static int map[][];
+    private static int original_map[][];
 
     /**
     * MapControl Inicializace
     * Získej načtenou mapu pro další zpracovávání.
     */
     public MapControl() {
-        this.map = load_map.getMap();
+        this.original_map = load_map.getMap();
     }
 
     /**
@@ -78,6 +79,24 @@ public class MapControl {
     */
     public int[][] getMap() {
         return this.map;
+    }
+
+    /**
+    * getOriginalMap
+    * Vrátí načtenou mapu skladu, nijak nepozměněnou oproti originálnímu souboru.
+    * @return Mapa skladu reprezentovaná jako 2D array prvků typu integer.
+    */
+    public int[][] getOriginalMap() {
+        return this.original_map;
+    }
+
+    /**
+    * mapSet
+    * @param updated_map Mapa, na kterou se má mapa aktualizovat.
+    * Nastaví mapu na zadanou.
+    */
+    public void mapSet(int[][] updated_map) {
+        this.map = updated_map;
     }
 
     /**

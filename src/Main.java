@@ -33,7 +33,18 @@ public class Main {
         CoordsConverter cnv = new CoordsConverter();
         HashIndexFinder fnd = new HashIndexFinder();
         MapControl map = new MapControl();
+        int[][] map_orig = map.getOriginalMap();
+        int[][] nm = new int[map_orig.length][map_orig[0].length];
+        
+        for (int i = 0; i < map_orig.length; i++) {
+                for (int k = 0; k < map_orig[0].length; k++) {
+                    nm[i][k] = map_orig[i][k];
+                }
+        }
+
+        map.mapSet(nm);
         MapPrinter mpp = new MapPrinter();
+
 
         // Vytvoreni typu zoozi
         Goods goods1 = new StoreGoods("Kuchynsky stul");
@@ -92,6 +103,7 @@ public class Main {
         CartControl cart = new CartControl("8.10");
         CartControl cart2 = new CartControl("8.9");
 
+
         // Seznam regalu vcetne jejich pozice
         ShelfManipulator regal = new ShelfManipulator("0.0", shelf);
         ShelfManipulator regal2 = new ShelfManipulator("1.0", shelf2);
@@ -113,14 +125,13 @@ public class Main {
         String key8 = fnd.getIndex(regal.shelf_map, "Postel");
 
         // Ziskej mapu skladu pro zobrazeni
-        int[][] warehouse_map = map.getMap();
         int[] pos;
 
         // Pridani polozek do wait_listu (listu, co maji voziky dovest)
         wait_list.WaitList_Add("Pohovka");
         wait_list.WaitList_Add("Postel");
         // Vytisk originalni mapy
-        mpp.printMap(warehouse_map);
+        mpp.printMap(map.getMap());
 
         // ukoncuju jenom kdyz vozik "dojede", coz je jen kvuli testum
         while (true) {
@@ -177,10 +188,26 @@ public class Main {
                     }
                 }
             }
+            int[][] orig_map = map.getOriginalMap();
+            int[][] new_map = new int[orig_map.length][orig_map[0].length];
+            int[] cart1_pos = cart.getPosition();
+            int[] cart2_pos = cart2.getPosition();
+
+            for (int i = 0; i < orig_map.length; i++) {
+                for (int k = 0; k < orig_map[0].length; k++) {
+                    if ((cart1_pos[0] == i && cart1_pos[1] == k) || (cart2_pos[0] == i && cart2_pos[1] == k))
+                        new_map[i][k] = 7;
+                    else 
+                        new_map[i][k] = orig_map[i][k];
+                }
+            }
+
+            map.mapSet(new_map);
+
 
             // Provizorni ghetto verze zpozdeni v milisekundach
             try { 
-                TimeUnit.MILLISECONDS.sleep(200);
+                TimeUnit.MILLISECONDS.sleep(750);
             }
             // Nevim proc tu ten catch je, ale bez nej to nejde
             catch(InterruptedException ex) {
@@ -189,11 +216,26 @@ public class Main {
 
             // Vytiskni updatnutou mapu
             System.out.printf("************\n");
-            mpp.printMap(warehouse_map);
+            mpp.printMap(map.getMap());
+
         }
 
         // Vytiskni mapu naposled
         System.out.printf("************\n");
-        mpp.printMap(warehouse_map);
+        int[][] orig_map = map.getOriginalMap();
+        int[][] new_map = new int[orig_map.length][orig_map[0].length];
+        int[] cart1_pos = cart.getPosition();
+        int[] cart2_pos = cart2.getPosition();
+        for (int i = 0; i < orig_map.length; i++) {
+                for (int k = 0; k < orig_map[0].length; k++) {
+                    if ((cart1_pos[0] == i && cart1_pos[1] == k) || (cart2_pos[0] == i && cart2_pos[1] == k))
+                        new_map[i][k] = 7;
+                    else 
+                        new_map[i][k] = orig_map[i][k];
+                }
+            }
+
+        map.mapSet(new_map);
+        mpp.printMap(map.getMap());
     }
 }

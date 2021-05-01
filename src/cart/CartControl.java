@@ -22,7 +22,7 @@ public class CartControl {
     private int start_x;
     private int start_y;
     private int last_position_orig;
-    private static MapControl map = new MapControl();
+    private MapControl map = new MapControl();
     private CoordsConverter cnv = new CoordsConverter();
     private PathFinder dk;
     public static ArrayList<CartControl> free_carts = new ArrayList<CartControl>();
@@ -36,6 +36,7 @@ public class CartControl {
     */
     public CartControl(String beginning) {
         int[] pair = cnv.coordsInt(beginning);
+        CartContent content = new CartContent();
         this.position_x = pair[0];
         this.position_y = pair[1];
         this.start_x = this.position_x;
@@ -57,7 +58,6 @@ public class CartControl {
     * @param y Poloha Y
     */
     public void gotoPosition(int x, int y) {
-        map.setItem(this.position_x, this.position_y, this.last_position_orig);
         this.position_x = x;
         this.position_y = y;
         this.start_x = this.position_x;
@@ -66,14 +66,17 @@ public class CartControl {
     }
 
     private void cartMoveCheck() {
-        // Muze projet jen skrz start, cestu a jiny vozik
-        if (this.last_position_orig == 0 || this.last_position_orig == 1 || this.last_position_orig == 7) {
-            this.last_position_orig = map.getItem(this.position_x, this.position_y);
-            map.setItem(this.position_x, this.position_y, 7);
-        }
-        else {
-            throw new ArithmeticException("Na tuto pozici nelze vozik umistit!");
-        }
+        map.setItem(this.position_x, this.position_y, 7);
+    }
+
+    /**
+    * getPosition
+    * Metoda vrátí aktuální pozici vozíku.
+    * @return Aktuální pozice vozíku
+    */
+    public int[] getPosition() {
+        int[] pos = {this.position_x, this.position_y};
+        return pos;
     }
 
     /**
