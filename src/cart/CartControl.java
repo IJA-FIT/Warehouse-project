@@ -21,12 +21,17 @@ public class CartControl {
     private int position_y;   
     private int start_x;
     private int start_y;
+    private int orig_start_x;
+    private int orig_start_y;
     private int last_position_orig;
     private MapControl map = new MapControl();
     private CoordsConverter cnv = new CoordsConverter();
     private PathFinder dk;
     public static ArrayList<CartControl> free_carts = new ArrayList<CartControl>();
     public String[] current_path;
+    public boolean cart_loaded;
+    public boolean cart_go4ware;
+    public boolean cart_start;
 
     /**
     * CartControl Inicializace
@@ -41,7 +46,12 @@ public class CartControl {
         this.position_y = pair[1];
         this.start_x = this.position_x;
         this.start_y = this.position_y;
+        this.orig_start_x = this.position_x;
+        this.orig_start_y = this.position_y;
         this.last_position_orig = map.getItem(this.position_x, this.position_y);
+        this.cart_loaded = false;
+        this.cart_go4ware = false;
+        this.cart_start = false;
         if (this.last_position_orig == 0 || this.last_position_orig == 1) {
             map.setItem(this.position_x, this.position_y, 7);
         }
@@ -63,6 +73,16 @@ public class CartControl {
         this.start_x = this.position_x;
         this.start_y = this.position_y;
         this.cartMoveCheck();
+    }
+
+    /**
+    * getOriginalStart
+    * Metoda ziská originální startovní pozice vozíku.
+    * @return Originální pozice vozíku.
+    */
+    public int[] getOriginalStart() {
+        int[] start = {this.orig_start_x, this.orig_start_y};
+        return start;
     }
 
     private void cartMoveCheck() {
