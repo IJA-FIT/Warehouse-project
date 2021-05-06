@@ -29,7 +29,7 @@ komoda_sasuke 22 7.4
 komoda_tsunade 82 8.4
 komoda_henry 67 9.4
 zidle_jitka 99 10.4
-zidle_omitka 14 11.4
+zidle_omitka 14 4.15
 zidle_omacka 67 0.7
 zidle_nice 69 1.7
 zidle_henlo 72 2.7
