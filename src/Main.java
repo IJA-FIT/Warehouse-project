@@ -101,8 +101,8 @@ public class Main {
         shelf8.put(itm81);
 
         // Vytvoreni voziku
-        CartControl cart = new CartControl("8.10");
-        CartControl cart2 = new CartControl("8.9");
+        CartControl cart = new CartControl("8.30");
+        CartControl cart2 = new CartControl("8.31");
 
 
         // Seznam regalu vcetne jejich pozice
@@ -167,7 +167,7 @@ public class Main {
                             cart.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int[] exit_point = cnv.coordsInt("0.10"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
+                            int[] exit_point = cnv.coordsInt("0.30"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
                             cart.current_path = cart.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
                         else {
@@ -247,7 +247,7 @@ public class Main {
                             cart2.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart2.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int[] exit_point = cnv.coordsInt("0.10"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
+                            int[] exit_point = cnv.coordsInt("0.31"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
                             cart2.current_path = cart2.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
                         else {
