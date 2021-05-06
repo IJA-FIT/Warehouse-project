@@ -31,10 +31,11 @@ public class HashIndexFinder {
     */
     public String getDestination(HashMap<String, GoodsShelf> regal, String searched) {
         for (Map.Entry<String, GoodsShelf> entry : regal.entrySet()) {
+            
             String key = entry.getKey();
             String value = entry.getValue().getShelfType();
 
-            if (value == searched) {
+            if (value.equals(searched)) {
                 int[] crds =  cc.coordsInt(key);
                 if (mp.exists(crds[0],crds[1]+1)) {
                     if (mp.getItem(crds[0], crds[1] + 1) == 1) {

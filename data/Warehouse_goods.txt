@@ -1,0 +1,3 @@
+Postel_Sverrige 15 0.0
+Postel_Cassandra 20 1.0
+Cerny_clovek 88 2.0
