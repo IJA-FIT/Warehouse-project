@@ -34,6 +34,7 @@ public class Main {
         CoordsConverter cnv = new CoordsConverter();
         HashIndexFinder fnd = new HashIndexFinder();
         MapControl map = new MapControl();
+        RandomNumberGenerator rng = new RandomNumberGenerator();
         int[][] map_orig = map.getOriginalMap();
         int[][] nm = new int[map_orig.length][map_orig[0].length];
         
@@ -45,99 +46,31 @@ public class Main {
 
         map.mapSet(nm);
         MapPrinter mpp = new MapPrinter();
+        WarehouseLoader loader = new WarehouseLoader(); // naplneni skladu
 
-
-        // Vytvoreni typu zoozi
-        Goods goods1 = new StoreGoods("Kuchynsky stul");
-        Goods goods2 = new StoreGoods("Zidle");
-        Goods goods3 = new StoreGoods("Skrin");
-        Goods goods4 = new StoreGoods("Pohovka");
-        Goods goods5 = new StoreGoods("Kreslo");
-        Goods goods6 = new StoreGoods("Konferencni stul");
-        Goods goods7 = new StoreGoods("Komoda");
-        Goods goods8 = new StoreGoods("Postel");
-
-        // Vytvoreni regalu s danym typem zbozi
-        GoodsShelf shelf = new StoreShelf(goods1);
-        GoodsShelf shelf2 = new StoreShelf(goods2);
-        GoodsShelf shelf3 = new StoreShelf(goods3);
-        GoodsShelf shelf4 = new StoreShelf(goods4);
-        GoodsShelf shelf5 = new StoreShelf(goods5);
-        GoodsShelf shelf6 = new StoreShelf(goods6);
-        GoodsShelf shelf7 = new StoreShelf(goods7);
-        GoodsShelf shelf8 = new StoreShelf(goods8);
-
-        // Vytvoreni noveho kusu zbozi
-        GoodsItem itm11 = new StoreGoodsItem(goods1, LocalDate.of(2021, 8, 5));
-        GoodsItem itm12 = new StoreGoodsItem(goods1, LocalDate.of(2021, 6, 6));
-        GoodsItem itm21 = new StoreGoodsItem(goods2, LocalDate.of(2021, 12, 8));
-        GoodsItem itm31 = new StoreGoodsItem(goods3, LocalDate.of(2021, 12, 6));
-        GoodsItem itm41 = new StoreGoodsItem(goods4, LocalDate.of(2021, 11, 6));
-        GoodsItem itm51 = new StoreGoodsItem(goods5, LocalDate.of(2021, 10, 6));
-        GoodsItem itm61 = new StoreGoodsItem(goods6, LocalDate.of(2021, 9, 6));
-        GoodsItem itm71 = new StoreGoodsItem(goods7, LocalDate.of(2021, 8, 6));
-        GoodsItem itm81 = new StoreGoodsItem(goods8, LocalDate.of(2021, 7, 6));
-
-        // Pridani kusu zbozi do typu
-        goods1.addItem(itm11);
-        goods1.addItem(itm12);
-        goods2.addItem(itm21);
-        goods3.addItem(itm31);
-        goods4.addItem(itm41);
-        goods5.addItem(itm51);
-        goods6.addItem(itm61);
-        goods7.addItem(itm71);
-        goods8.addItem(itm81);
-
-        // Pridani zbozi do regalu
-        shelf.put(itm11);
-        shelf.put(itm12);
-        shelf2.put(itm21);
-        shelf3.put(itm31);
-        shelf4.put(itm41);
-        shelf5.put(itm51);
-        shelf6.put(itm61);
-        shelf7.put(itm71);
-        shelf8.put(itm81);
 
         // Vytvoreni voziku
         CartControl cart = new CartControl("8.30");
         CartControl cart2 = new CartControl("8.31");
 
-
-        // Seznam regalu vcetne jejich pozice
-        ShelfManipulator regal = new ShelfManipulator("0.0", shelf);
-        ShelfManipulator regal2 = new ShelfManipulator("1.0", shelf2);
-        ShelfManipulator regal3 = new ShelfManipulator("2.0", shelf3);
-        ShelfManipulator regal4 = new ShelfManipulator("3.0", shelf4);
-        ShelfManipulator regal5 = new ShelfManipulator("4.0", shelf5);
-        ShelfManipulator regal6 = new ShelfManipulator("7.0", shelf6);
-        ShelfManipulator regal7 = new ShelfManipulator("8.0", shelf7);
-        ShelfManipulator regal8 = new ShelfManipulator("0.4", shelf8);
-
-        // Najdi v seznamu regalu typ zbozi a vrat jeho pozici
-        String key = fnd.getIndex(regal.shelf_map, "Kuchynsky stul");
-        String key2 = fnd.getIndex(regal.shelf_map, "Zidle");
-        String key3 = fnd.getIndex(regal.shelf_map, "Skrin");
-        String key4 = fnd.getIndex(regal.shelf_map, "Pohovka");
-        String key5 = fnd.getIndex(regal.shelf_map, "Kreslo");
-        String key6 = fnd.getIndex(regal.shelf_map, "Konferencni stul");
-        String key7 = fnd.getIndex(regal.shelf_map, "Komoda");
-        String key8 = fnd.getIndex(regal.shelf_map, "Postel");
+        // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
+        ShelfManipulator regal = loader.controller;
 
         // Ziskej mapu skladu pro zobrazeni
         int[] pos;
 
         // Pridani polozek do wait_listu (listu, co maji voziky dovest)
-        wait_list.WaitList_Add("Pohovka");
-        wait_list.WaitList_Add("Postel");
-        wait_list.WaitList_Add("Kreslo");
+        wait_list.WaitList_Add("Postel_Sverrige");
+        wait_list.WaitList_Add("Postel_Cassandra");
+        wait_list.WaitList_Add("Cerny_clovek");
         // Vytisk originalni mapy
         mpp.printMap(map.getMap());
 
         // ukoncuju jenom kdyz vozik "dojede", coz je jen kvuli testum
         boolean cart1_flag = false;
         boolean cart2_flag = false;
+
+        String[] end_points = {"0.31", "0.30"};
         while (true) {
             
             // Pokud bylo zadano, ze se ma nejake zbozi dovest
@@ -167,7 +100,13 @@ public class Main {
                             cart.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int[] exit_point = cnv.coordsInt("0.30"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
+                            int res = rng.getRandomNumber(0,3);
+                            int[] exit_point;
+                            if (res > 1)
+                                exit_point = cnv.coordsInt(end_points[0]);
+                            else 
+                                exit_point = cnv.coordsInt(end_points[1]);
+
                             cart.current_path = cart.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
                         else {
@@ -247,7 +186,13 @@ public class Main {
                             cart2.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart2.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int[] exit_point = cnv.coordsInt("0.31"); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
+                            int res = rng.getRandomNumber(0,3);
+                            int[] exit_point;
+                            if (res > 1)
+                                exit_point = cnv.coordsInt(end_points[0]);
+                            else 
+                                exit_point = cnv.coordsInt(end_points[1]);
+
                             cart2.current_path = cart2.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
                         else {
@@ -336,7 +281,7 @@ public class Main {
 
             // Provizorni ghetto verze zpozdeni v milisekundach
             try { 
-                TimeUnit.MILLISECONDS.sleep(750);
+                TimeUnit.MILLISECONDS.sleep(150);
             }
             // Nevim proc tu ten catch je, ale bez nej to nejde
             catch(InterruptedException ex) {
