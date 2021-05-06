@@ -12,7 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+// import jdk.javadoc.internal.tool.Start;
+import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
@@ -27,9 +30,27 @@ import java.util.Arrays;
 /**
  * Demonstrační třída sloužící k ukázce současné funkcionality programu.
  */
-public class Main {
+public class Main extends Application {
+   
 
     public static void main(String[] args) {
+
+        launch(args);
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        // FXMLLoader myloader = new FXMLLoader(getClass().getResource("/layout.fxml"));
+
+        // VBox root = myloader.load();
+
+        // Scene scene = new Scene(root); 
+        // primaryStage.setScene(scene);
+        // primaryStage.show();
+
+
         WaitList wait_list = new WaitList();
         CoordsConverter cnv = new CoordsConverter();
         HashIndexFinder fnd = new HashIndexFinder();
@@ -50,8 +71,8 @@ public class Main {
 
 
         // Vytvoreni voziku
-        CartControl cart = new CartControl("8.30");
-        CartControl cart2 = new CartControl("8.31");
+        CartControl cart = new CartControl("11.23");
+        CartControl cart2 = new CartControl("11.22");
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         ShelfManipulator regal = loader.controller;
@@ -66,7 +87,7 @@ public class Main {
         boolean cart1_flag = false;
         boolean cart2_flag = false;
 
-        String[] end_points = {"0.31", "0.30"};
+        String[] end_points = {"0.23", "0.22"};
         while (true) {
             
             // Pokud bylo zadano, ze se ma nejake zbozi dovest
@@ -287,7 +308,6 @@ public class Main {
             // Vytiskni updatnutou mapu
             System.out.printf("************\n");
             mpp.printMap(map.getMap());
-
         }
     }
 }
