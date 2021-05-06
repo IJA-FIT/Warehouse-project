@@ -60,9 +60,9 @@ public class Main {
         int[] pos;
 
         // Pridani polozek do wait_listu (listu, co maji voziky dovest)
-        wait_list.WaitList_Add("Postel_Sverrige");
-        wait_list.WaitList_Add("Postel_Cassandra");
-        wait_list.WaitList_Add("Cerny_clovek");
+        wait_list.WaitList_Add("lampa_gorgc");
+        wait_list.WaitList_Add("kos_bred");
+        wait_list.WaitList_Add("zidle_omitka");
         // Vytisk originalni mapy
         mpp.printMap(map.getMap());
 

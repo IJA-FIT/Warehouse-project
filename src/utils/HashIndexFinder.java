@@ -37,15 +37,11 @@ public class HashIndexFinder {
 
             if (value.equals(searched)) {
                 int[] crds =  cc.coordsInt(key);
-                if (mp.exists(crds[0],crds[1]+1)) {
-                    if (mp.getItem(crds[0], crds[1] + 1) == 1) {
-                        key = cc.convertCoords(crds[0], crds[1]+1);
-                    }
+                if (mp.exists(crds[0],crds[1]+1) && (mp.getItem(crds[0], crds[1] + 1) == 1)) {
+                    key = cc.convertCoords(crds[0], crds[1]+1);
                 }
-                else if (mp.exists(crds[0],crds[1]-1)) {
-                    if (mp.getItem(crds[0], crds[1] - 1) == 1) {
-                        key = cc.convertCoords(crds[0], crds[1]-1);
-                    }
+                else if (mp.exists(crds[0],crds[1]-1) && (mp.getItem(crds[0], crds[1] - 1) == 1)) {
+                    key = cc.convertCoords(crds[0], crds[1]-1);
                 }
                 else {
                     key = "error";
