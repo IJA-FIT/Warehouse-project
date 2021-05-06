@@ -70,9 +70,6 @@ public class WarehouseLoader {
         int number_of_wares = Integer.parseInt(line[1]);
         String coords = line[2];
 
-        /*String goods_name = 'goods' + String.valueOf(Integer(counter));
-        String shelf_name = 'shelf' + String.valueOf(Integer(counter));*/
-
         Goods goods_name = new StoreGoods(ware_name);
         GoodsShelf shelf_name = new StoreShelf(goods_name);
 
