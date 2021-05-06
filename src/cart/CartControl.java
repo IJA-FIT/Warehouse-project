@@ -1,84 +1,145 @@
+/**
+* Cart Control
+* Cart Content pokrývá funkce sloužící pro pohyb
+* s vozíkem a hledání ideální cesty.
+*
+* @author Vojtěch Fiala <xfiala61>
+*/
+
 package src.cart;
 
-import src.map_manipulation.Map;
+import src.map_manipulation.MapControl;
+import src.utils.CoordsConverter;
+import java.util.ArrayList;
 
+/**
+ * CartControl je třída pracující nad operacemi s pohybem vozíku
+ */
 public class CartControl {
 
-    int position_x;
-    int position_y;   
-    int start_x;
-    int start_y;
-    int last_position_orig;
-    public static Map map = new Map();
+    private int position_x;
+    private int position_y;   
+    private int start_x;
+    private int start_y;
+    private int orig_start_x;
+    private int orig_start_y;
+    private int last_position_orig;
+    private MapControl map = new MapControl();
+    private CoordsConverter cnv = new CoordsConverter();
+    private PathFinder dk;
+    public static ArrayList<CartControl> free_carts = new ArrayList<CartControl>();
+    public String[] current_path;
+    public boolean cart_loaded;
+    public boolean cart_go4ware;
+    public boolean cart_start;
 
+    /**
+    * CartControl Inicializace
+    * Nastaví atributy, umístí na mapu vozík a zazálohuje
+    * originální hodnotu v mapě na místě vozíku.
+    * @param beginning Počáteční poloha v "zakódované" String formě
+    */
     public CartControl(String beginning) {
-        this.convertCoords(beginning);
+        int[] pair = cnv.coordsInt(beginning);
+        CartContent content = new CartContent();
+        this.position_x = pair[0];
+        this.position_y = pair[1];
         this.start_x = this.position_x;
         this.start_y = this.position_y;
+        this.orig_start_x = this.position_x;
+        this.orig_start_y = this.position_y;
         this.last_position_orig = map.getItem(this.position_x, this.position_y);
+        this.cart_loaded = false;
+        this.cart_go4ware = false;
+        this.cart_start = false;
         if (this.last_position_orig == 0 || this.last_position_orig == 1) {
             map.setItem(this.position_x, this.position_y, 7);
         }
         else {
             throw new ArithmeticException("Na tuto pozici nelze vozik umistit!");
         }
+        free_carts.add(this);
     }
 
+    /**
+    * gotoPosition
+    * Metoda přesune vozík na určenou pozici a zazálohuje původní hodnotu místa.
+    * @param x Poloha X
+    * @param y Poloha Y
+    */
     public void gotoPosition(int x, int y) {
-        map.setItem(this.position_x, this.position_y, this.last_position_orig);
         this.position_x = x;
         this.position_y = y;
+        this.start_x = this.position_x;
+        this.start_y = this.position_y;
         this.cartMoveCheck();
     }
 
+    /**
+    * getOriginalStart
+    * Metoda ziská originální startovní pozice vozíku.
+    * @return Originální pozice vozíku.
+    */
+    public int[] getOriginalStart() {
+        int[] start = {this.orig_start_x, this.orig_start_y};
+        return start;
+    }
+
     private void cartMoveCheck() {
-        if (this.last_position_orig == 0 || this.last_position_orig == 1) {
-            this.last_position_orig = map.getItem(this.position_x, this.position_y);
-            map.setItem(this.position_x, this.position_y, 7);
-        }
-        else {
-            throw new ArithmeticException("Na tuto pozici nelze vozik umistit!");
+        map.setItem(this.position_x, this.position_y, 7);
+    }
+
+    /**
+    * getPosition
+    * Metoda vrátí aktuální pozici vozíku.
+    * @return Aktuální pozice vozíku
+    */
+    public int[] getPosition() {
+        int[] pos = {this.position_x, this.position_y};
+        return pos;
+    }
+
+    /**
+    * findPath
+    * Metoda najde nejkratší cestu mezi začátkem a destinací.
+    * @param dst_x Souřadnice X cíle, k němuž nejkratší cestu chceme.
+    * @param dst_y Souřadnice Y cíle, k němuž nejkratší cestu chceme.
+    * @return Nejkratší cesta k cíli ve formě arraye prvků typu String představující souřadnice
+    */
+    public String[] findPath(int dst_x, int dst_y) {
+        this.dk = new PathFinder(this.map.getMap(), this.start_x, this.start_y, dst_x, dst_y);
+        return this.dk.Dijkstra();
+    }
+
+    /**
+    * getDistance
+    * Metoda získá vzdálenost mezi počátkem a cílem.
+    * @param key Zakódované souřadnice cíle, k němuž vzdálenost chceme.
+    * @return Vzdálenost k cíli
+    */
+    public int getDistance(String key) {
+        return this.dk.getDistance(key);
+    }
+
+    /**
+    * printPath
+    * Metoda vypíše nejkrátší cestu mezi 2 body.
+    * @param path Cesta, která se má vypsat.
+    */
+    public void printPath(String[] path) {
+        int z = 0;
+        for (int i = path.length; i > 0; i--) {
+            System.out.printf("Krok %d: %s\n", z++, path[i-1]);
         }
     }
 
-    private int getDot(String str) {
-        for(int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == '.') {
-                return i;
-            }
-        }
-        return 0;
+    /**
+    * getStart
+    * Metoda vrátí počáteční pozici vozíku.
+    * @return Zakódované souřadnice vozíku.
+    */
+    public String getStart() {
+        String pos = cnv.convertCoords(this.start_x, this.start_y);
+        return pos;
     }
-
-    private void convertCoords(String coords) {
-        int x = 0;
-        int y = 0;
-        if (coords.length() == 3) {   // cislo tecka cislo (5.5) == [5][5]
-            x = Integer.parseInt(Character.toString(coords.charAt(0)));
-            y = Integer.parseInt(Character.toString(coords.charAt(2)));
-        }
-        else if (coords.length() == 4) {
-            int dot = this.getDot(coords);
-            if (dot == 2) {
-                String dat = Character.toString(coords.charAt(0)) + Character.toString(coords.charAt(1));
-                x = Integer.parseInt(dat);
-                y = Integer.parseInt(Character.toString(coords.charAt(3)));
-            }
-            else {
-                String dat = Character.toString(coords.charAt(2)) + Character.toString(coords.charAt(3));
-                y = Integer.parseInt(dat);
-                x = Integer.parseInt(Character.toString(coords.charAt(0)));
-            }
-        }
-        else if (coords.length() == 5) {
-            String dat = Character.toString(coords.charAt(0)) + Character.toString(coords.charAt(1));
-            String dat2 = Character.toString(coords.charAt(3)) + Character.toString(coords.charAt(4));
-            x = Integer.parseInt(dat);
-            y = Integer.parseInt(dat2);
-        }
-        this.position_x = x;
-        this.position_y = y;
-    }
-
-
 }
