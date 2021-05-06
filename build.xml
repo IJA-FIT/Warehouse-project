@@ -31,15 +31,17 @@
 
     <target name="compile" depends="download">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" modulepath="${jfx.dir}">
-        <compilerarg line="--add-modules javafx.fxml,javafx.controls ${src.dir}/Main.java"/>
+        <compilerarg line="--add-modules javafx.controls,javafx.fxml ${src.dir}/Main.java"/>
         </javac>
         <jar destfile="${dest.dir}/ija-app.jar" basedir="${build.dir}">
+            <fileset dir="src/resources"/>
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
         </jar>
         <antcall target="doc"/>
     </target>
+    
 
     <target name="doc">
     <javadoc destdir="${doc.dir}" additionalparam="-author --ignore-source-errors">
@@ -63,7 +65,7 @@
 
     <target name="run" depends="compile_test">
         <java jar="${dest.dir}/ija-app.jar" fork="true" modulepath="${jfx.dir}">
-        <jvmarg line="--add-modules javafx.controls"/>
+        <jvmarg line="--add-modules javafx.controls,javafx.fxml"/>
         </java>
     </target>
 
