@@ -88,6 +88,9 @@ public class Main extends Application {
         boolean cart2_flag = false;
 
         String[] end_points = {"0.23", "0.22"};
+        int rand_min = 0;
+        int rand_max = end_points.length;   // Tady by logicky melo byt -1, ale tohle funguje lip
+
         while (true) {
             
             // Pokud bylo zadano, ze se ma nejake zbozi dovest
@@ -117,12 +120,8 @@ public class Main extends Application {
                             cart.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int res = rng.getRandomNumber(0,3);
-                            int[] exit_point;
-                            if (res > 1)
-                                exit_point = cnv.coordsInt(end_points[0]);
-                            else 
-                                exit_point = cnv.coordsInt(end_points[1]);
+                            int res = rng.getRandomNumber(rand_min, rand_max);
+                            int[] exit_point = cnv.coordsInt(end_points[res]);
 
                             cart.current_path = cart.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
@@ -203,12 +202,8 @@ public class Main extends Application {
                             cart2.cart_loaded = true; // Je nalozeno, cesta do odberu
                             cart2.cart_go4ware = false; // Uz nejede pro zbozi
 
-                            int res = rng.getRandomNumber(0,3);
-                            int[] exit_point;
-                            if (res > 1)
-                                exit_point = cnv.coordsInt(end_points[0]);
-                            else 
-                                exit_point = cnv.coordsInt(end_points[1]);
+                            int res = rng.getRandomNumber(rand_min, rand_max);
+                            int[] exit_point = cnv.coordsInt(end_points[res]);
 
                             cart2.current_path = cart2.findPath(exit_point[0], exit_point[1]);    // cesta do cile
                         }
