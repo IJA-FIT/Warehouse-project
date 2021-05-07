@@ -36,10 +36,19 @@ import java.util.TimerTask;
 public class main_controller {
 
     private int loop_started = 0;
+    private double timer_speed = 1000;
 
     @FXML
     private AnchorPane main_content;
 
+    @FXML
+    private Button slow_button;
+
+    @FXML
+    private Button speed_button;
+
+    @FXML
+    private Button default_speed;
 
     @FXML
     private GridPane main_grid;
@@ -78,6 +87,34 @@ public class main_controller {
             loop_started = 1;
         }
     }
+
+    @FXML
+    private void slow_down(ActionEvent event) {
+        if(timer_speed <= 4000) {
+            timer.cancel();
+            timer_speed = 2 * timer_speed;
+            count_time();
+        }
+    }
+
+    @FXML
+    private void speed_up(ActionEvent event) {
+        if(timer_speed >= 250) {
+            timer.cancel();
+            timer_speed = 0.5 * timer_speed;
+            count_time();
+        }
+    }
+
+    @FXML
+    private void set_default_speed(ActionEvent event) {
+        
+        timer.cancel();
+        timer_speed = 1000;
+        count_time();
+    }
+
+
     
 
     @FXML
@@ -308,13 +345,19 @@ public class main_controller {
 
             map.mapSet(new_map);
 
+
+
+            // Vytiskni updatnutou mapu
+            // System.out.printf("************\n");
+            // mpp.printMap(map.getMap());
+
             Platform.runLater(() -> {
                 main_grid.getChildren().clear();
                 init_gui(map.getMap());
             });
 
             }
-        }, 0, 500);
+        }, 0,(int) timer_speed);
     }
 
     public void init_gui(int[][] map) {
