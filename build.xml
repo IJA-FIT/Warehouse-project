@@ -31,10 +31,14 @@
 
     <target name="compile" depends="download">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" modulepath="${jfx.dir}">
-        <compilerarg line="--add-modules javafx.controls,javafx.fxml ${src.dir}/Main.java"/>
+            <compilerarg line="--add-modules javafx.controls,javafx.fxml ${src.dir}/Main.java"/>
         </javac>
         <jar destfile="${dest.dir}/ija-app.jar" basedir="${build.dir}">
             <fileset dir="src/resources"/>
+            <fileset dir="src/resources" includes="pepela.png"></fileset>
+            <fileset dir="src/resources" includes="forklift.png"></fileset>
+            <fileset dir="src/resources" includes="parking_slot.png"></fileset>
+            <fileset dir="src/resources" includes="vydejni_misto.png"></fileset>
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
