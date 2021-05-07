@@ -7,6 +7,10 @@
 
 package src.utils;
 
+import java.io.File;  
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class WaitList {
 
     /* WaitList 
@@ -15,6 +19,23 @@ public class WaitList {
     public static String[] WaitList = new String[0];
     private Array arr = new Array();
 
+
+    public WaitList() {
+        Scanner reader = null;
+        File file = new File("./data/Orders.txt");
+
+        try {
+            reader = new Scanner(file);
+
+        } catch (FileNotFoundException e){
+            System.out.println("Couldn't load file with orders.");
+        }
+
+        while(reader.hasNextLine()) {
+            String order = reader.nextLine();
+            this.WaitList_Add(order);
+        }
+    }
     /**
     * WaitList_Add
     * Přidá do WaitListu prvek.
