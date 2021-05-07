@@ -27,8 +27,14 @@ public class WarehouseLoader {
      * Regál, skrz který je možné přistoupit do seznamu regálů
      */
     public ShelfManipulator controller;
+    /**
+     * goods_list
+     * Seznam typů zboží ve skladu
+     */
+    public static String[] goods_list = new String[0];
     private boolean controller_set = false;
     private RandomNumberGenerator rng = new RandomNumberGenerator();
+    private Array arr = new Array();
     
     /**
      * WarehouseLoader
@@ -87,6 +93,7 @@ public class WarehouseLoader {
         }
 
         ShelfManipulator regal = new ShelfManipulator(coords, shelf_name);
+        this.goods_list = arr.append(this.goods_list, ware_name);
 
         if (this.controller_set == false) {
             this.controller_set = true;
