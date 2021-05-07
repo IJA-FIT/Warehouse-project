@@ -32,6 +32,7 @@ public class CartControl {
     public boolean cart_loaded;
     public boolean cart_go4ware;
     public boolean cart_start;
+    public boolean cart_busy;
     public CartContent content;
 
     /**
@@ -53,6 +54,7 @@ public class CartControl {
         this.cart_loaded = false;
         this.cart_go4ware = false;
         this.cart_start = false;
+        this.cart_busy = false;
         if (this.last_position_orig == 0 || this.last_position_orig == 1) {
             map.setItem(this.position_x, this.position_y, 7);
         }

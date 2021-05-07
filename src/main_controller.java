@@ -68,13 +68,13 @@ public class main_controller {
 
     private CartControl cart;
     private CartControl cart2;
+    private CartControl cart3;
+    private CartControl cart4;
+    private CartControl cart5;
 
     private String[] end_points = {"0.23", "0.22"};
     private int rand_min = 0;
     private int rand_max = end_points.length;   // Tady by logicky melo byt -1, ale tohle funguje lip
-
-    private boolean cart1_flag = false;
-    private boolean cart2_flag = false;
 
     private int[] pos;
 
@@ -134,6 +134,86 @@ public class main_controller {
         main_content.setScaleY(zoom_level *main_content.getScaleY());
     }
 
+    private void cart_does_stuff(CartControl cart) {
+        if (cart.cart_go4ware == true) {
+            if (cart.cart_busy == true) {
+                cart.cart_busy = false; // Jedno kolo cekani (nakladani)
+                cart.cart_loaded = true; // Je nalozeno, cesta do odberu
+                cart.cart_go4ware = false; // Uz nejede pro zbozi
+                cart.content.loadItem();
+                cart.content.setShelf(null);
+
+                int res = rng.getRandomNumber(rand_min, rand_max);
+                int[] exit_point = cnv.coordsInt(end_points[res]);
+
+                cart.current_path = cart.findPath(exit_point[0], exit_point[1]);    // cesta do cile
+            }
+            else {
+                pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
+                cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
+                int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
+                cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
+
+
+                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
+                if (cart.current_path.length > 1) {
+                // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
+                    if (cart.current_path[0].equals(cart.current_path[1])) {
+                        if (cart.cart_busy != true) {
+                            cart.cart_busy = true;
+                        }
+                    }
+                }
+            }
+        }
+        else if (cart.cart_loaded == true) {
+            if (cart.cart_busy == true) {
+                cart.cart_busy = false;
+                cart.cart_loaded = false;   // vylozeno do vydeje
+                cart.cart_start = true;
+                cart.content.unloadItem();
+
+                int[] start = cart.getOriginalStart(); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
+                cart.current_path = cart.findPath(start[0], start[1]);    // cesta na start
+            }
+            else {
+                pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
+                cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
+                int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
+                cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
+
+                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
+                if (cart.current_path.length > 1) {
+                    // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
+                     if (cart.current_path[0].equals(cart.current_path[1])) {
+                        if (cart.cart_busy != true) {
+                            cart.cart_busy = true;
+                        }
+                    }
+                }
+            }
+        }
+        else if (cart.cart_start == true) {
+            pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
+            cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
+            int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
+            cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
+
+            System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+            // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
+            if (cart.current_path.length > 1) {
+                // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
+                if (cart.current_path[0].equals(cart.current_path[1])) {
+                    cart.cart_start = false;
+                    cart.free_carts.add(cart);
+                    cart.current_path = null;
+                }
+            }
+        }
+    }
+
     public void count_time() {
         timer = new Timer(false);
         timer.scheduleAtFixedRate(new TimerTask(){
@@ -161,200 +241,68 @@ public class main_controller {
                 if (cart.current_path != null) {
                     // Zkontroluj, ze cesta je delsi nez 0
                     if (cart.current_path.length > 0) {
-
-                        if (cart.cart_go4ware == true) {
-                            if (cart1_flag == true) {
-                                cart1_flag = false; // Jedno kolo cekani (nakladani)
-                                cart.cart_loaded = true; // Je nalozeno, cesta do odberu
-                                cart.cart_go4ware = false; // Uz nejede pro zbozi
-                                cart.content.loadItem();
-                                cart.content.setShelf(null);
-
-                                int res = rng.getRandomNumber(rand_min, rand_max);
-                                int[] exit_point = cnv.coordsInt(end_points[res]);
-
-                                cart.current_path = cart.findPath(exit_point[0], exit_point[1]);    // cesta do cile
-                            }
-                            else {
-                                pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                                cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                                int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
-                                cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-
-                                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
-                                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                                if (cart.current_path.length > 1) {
-                                    // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                    if (cart.current_path[0].equals(cart.current_path[1])) {
-                                        if (cart1_flag != true) {
-                                            cart1_flag = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if (cart.cart_loaded == true) {
-                            if (cart1_flag == true) {
-                                cart1_flag = false;
-                                cart.cart_loaded = false;   // vylozeno do vydeje
-                                cart.cart_start = true;
-                                cart.content.unloadItem();
-
-                                int[] start = cart.getOriginalStart(); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
-                                cart.current_path = cart.findPath(start[0], start[1]);    // cesta na start
-                            }
-                            else {
-                                pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                                cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                                int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
-                                cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-
-                                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
-                                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                                if (cart.current_path.length > 1) {
-                                    // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                    if (cart.current_path[0].equals(cart.current_path[1])) {
-                                        if (cart1_flag != true) {
-                                            cart1_flag = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if (cart.cart_start == true) {
-                            pos = cnv.coordsInt(cart.current_path[cart.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                            cart.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                            int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
-                            cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-                            System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
-                            // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                            if (cart.current_path.length > 1) {
-                                // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                if (cart.current_path[0].equals(cart.current_path[1])) {
-                                    cart.cart_start = false;
-                                    cart.free_carts.add(cart);
-                                    cart.current_path = null;
-                                }
-                            }
-                        }
+                        cart_does_stuff(cart);
                     }
                 }
 
                 if (cart2.current_path != null) {
                     // Zkontroluj, ze cesta je delsi nez 0
                     if (cart2.current_path.length > 0) {
-
-                        if (cart2.cart_go4ware == true) {
-                            if (cart2_flag == true) {
-                                cart2_flag = false; // Jedno kolo cekani (nakladani)
-                                cart2.cart_loaded = true; // Je nalozeno, cesta do odberu
-                                cart2.cart_go4ware = false; // Uz nejede pro zbozi
-                                cart2.content.loadItem();
-                                cart2.content.setShelf(null);
-                                
-
-                                int res = rng.getRandomNumber(rand_min, rand_max);
-                                int[] exit_point = cnv.coordsInt(end_points[res]);
-
-                                cart2.current_path = cart2.findPath(exit_point[0], exit_point[1]);    // cesta do cile
-                            }
-                            else {
-                                pos = cnv.coordsInt(cart2.current_path[cart2.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                                cart2.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                                int[] target_refresh = cnv.coordsInt(cart2.current_path[0]); // Nacti cil z puvodni cesty
-                                cart2.current_path = cart2.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-
-                                System.out.println(Arrays.toString(cart2.current_path)); // Testovaci vypis zbyvajici cesty
-                                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                                if (cart2.current_path.length > 1) {
-                                    // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                    if (cart2.current_path[0].equals(cart2.current_path[1])) {
-                                        if (cart2_flag != true) {
-                                            cart2_flag = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if (cart2.cart_loaded == true) {
-                            if (cart2_flag == true) {
-                                cart2_flag = false;
-                                cart2.cart_loaded = false;   // vylozeno do vydeje
-                                cart2.cart_start = true;
-                                cart2.content.unloadItem();
-
-                                int[] start = cart2.getOriginalStart(); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
-                                cart2.current_path = cart2.findPath(start[0], start[1]);    // cesta na start
-                            }
-                            else {
-                                pos = cnv.coordsInt(cart2.current_path[cart2.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                                cart2.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                                int[] target_refresh = cnv.coordsInt(cart2.current_path[0]); // Nacti cil z puvodni cesty
-                                cart2.current_path = cart2.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-
-                                System.out.println(Arrays.toString(cart2.current_path)); // Testovaci vypis zbyvajici cesty
-                                // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                                if (cart2.current_path.length > 1) {
-                                    // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                    if (cart2.current_path[0].equals(cart2.current_path[1])) {
-                                        if (cart2_flag != true) {
-                                            cart2_flag = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if (cart2.cart_start == true) {
-                            pos = cnv.coordsInt(cart2.current_path[cart2.current_path.length-2]); // nova pozice je predposledni souradnice ze soucastne cesty
-                            cart2.gotoPosition(pos[0], pos[1]);  // Jdi na tu pozici (tzn. mam treba [0,1  1,1  2,1], kde 2,1 je aktualni -> Jdi na 1,1)
-                            int[] target_refresh = cnv.coordsInt(cart2.current_path[0]); // Nacti cil z puvodni cesty
-                            cart2.current_path = cart2.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
-
-                            System.out.println(Arrays.toString(cart2.current_path)); // Testovaci vypis zbyvajici cesty
-                            // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
-                            if (cart2.current_path.length > 1) {
-                                // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
-                                if (cart2.current_path[0].equals(cart2.current_path[1])) {
-                                    cart2.cart_start = false;
-                                    cart2.free_carts.add(cart2);
-                                    cart2.current_path = null;
-                                }
-                            }
-                        }
+                        cart_does_stuff(cart2);
                     }
                 }
 
-            int[][] orig_map = map.getOriginalMap();
-            int[][] new_map = new int[orig_map.length][orig_map[0].length];
-            int[] cart1_pos = cart.getPosition();
-            int[] cart2_pos = cart2.getPosition();
-
-            for (int i = 0; i < orig_map.length; i++) {
-                for (int k = 0; k < orig_map[0].length; k++) {
-                    if ((cart1_pos[0] == i && cart1_pos[1] == k) || (cart2_pos[0] == i && cart2_pos[1] == k))
-                        new_map[i][k] = 7;
-                    else 
-                        new_map[i][k] = orig_map[i][k];
+                if (cart3.current_path != null) {
+                    // Zkontroluj, ze cesta je delsi nez 0
+                    if (cart3.current_path.length > 0) {
+                        cart_does_stuff(cart3);
+                    }
                 }
-            }
 
-            map.mapSet(new_map);
+                if (cart4.current_path != null) {
+                    // Zkontroluj, ze cesta je delsi nez 0
+                    if (cart4.current_path.length > 0) {
+                        cart_does_stuff(cart4);
+                    }
+                }
+
+                if (cart5.current_path != null) {
+                    // Zkontroluj, ze cesta je delsi nez 0
+                    if (cart5.current_path.length > 0) {
+                        cart_does_stuff(cart5);
+                    }
+                }
+
+                int[][] orig_map = map.getOriginalMap();
+                int[][] new_map = new int[orig_map.length][orig_map[0].length];
+                int[] cart1_pos = cart.getPosition();
+                int[] cart2_pos = cart2.getPosition();
+                int[] cart3_pos = cart3.getPosition();
+                int[] cart4_pos = cart4.getPosition();
+                int[] cart5_pos = cart5.getPosition();
+
+                for (int i = 0; i < orig_map.length; i++) {
+                    for (int k = 0; k < orig_map[0].length; k++) {
+                        if ((cart1_pos[0] == i && cart1_pos[1] == k) || (cart2_pos[0] == i && cart2_pos[1] == k) ||
+                        (cart3_pos[0] == i && cart3_pos[1] == k) || (cart4_pos[0] == i && cart4_pos[1] == k) || (cart5_pos[0] == i && cart5_pos[1] == k))
+                            new_map[i][k] = 7;
+                        else 
+                            new_map[i][k] = orig_map[i][k];
+                    }
+                }
+
+                map.mapSet(new_map);
 
 
 
-            // Vytiskni updatnutou mapu
-            // System.out.printf("************\n");
-            // mpp.printMap(map.getMap());
+                // Vytiskni updatnutou mapu
+                // System.out.printf("************\n");
+                // mpp.printMap(map.getMap());
 
-            Platform.runLater(() -> {
-                main_grid.getChildren().clear();
-                init_gui(map.getMap());
-            });
+                Platform.runLater(() -> {
+                    main_grid.getChildren().clear();
+                    init_gui(map.getMap());
+                });
 
             }
         }, 0,(int) timer_speed);
@@ -413,6 +361,9 @@ public class main_controller {
         // Vytvoreni voziku
         cart = new CartControl("11.23");
         cart2 = new CartControl("11.22");
+        cart3 = new CartControl("11.21");
+        cart4 = new CartControl("10.23");
+        cart5 = new CartControl("10.22");
 
         init_gui(nm);
 
@@ -435,5 +386,4 @@ public class main_controller {
 
 
     }
-
 }   
