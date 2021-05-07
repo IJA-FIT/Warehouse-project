@@ -17,6 +17,9 @@ import java.util.Arrays;
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
 
+/**
+ * WarehouseLoader slouží k načítání obsahu skladu.
+ */
 public class WarehouseLoader {
 
     /**
