@@ -42,13 +42,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // FXMLLoader myloader = new FXMLLoader(getClass().getResource("/layout.fxml"));
+        FXMLLoader myloader = new FXMLLoader(getClass().getResource("/layout.fxml"));
 
-        // VBox root = myloader.load();
-
-        // Scene scene = new Scene(root); 
-        // primaryStage.setScene(scene);
-        // primaryStage.show();
+        VBox root = myloader.load();
 
 
         WaitList wait_list = new WaitList();
@@ -65,14 +61,22 @@ public class Main extends Application {
                 }
         }
 
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
         map.mapSet(nm);
-        MapPrinter mpp = new MapPrinter();
-        WarehouseLoader loader = new WarehouseLoader(); // naplneni skladu
-
-
         // Vytvoreni voziku
         CartControl cart = new CartControl("11.23");
         CartControl cart2 = new CartControl("11.22");
+
+        main_controller controller = myloader.getController();
+
+        controller.init_gui(nm);
+
+        MapPrinter mpp = new MapPrinter();
+        WarehouseLoader loader = new WarehouseLoader(); // naplneni skladu
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         ShelfManipulator regal = loader.controller;
