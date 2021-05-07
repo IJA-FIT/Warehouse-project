@@ -34,6 +34,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -148,7 +149,13 @@
                       <Button fx:id="start_button" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#start_gui" prefHeight="24.0" prefWidth="184.0" text="Start" />
                     </buttons>
                   </ButtonBar>
-               </children></AnchorPane>
+                  <Button fx:id="slow_button" layoutX="157.0" layoutY="95.0" mnemonicParsing="false" onAction="#slow_down" prefHeight="24.0" prefWidth="40.0" text="-" />
+                  <Button fx:id="speed_button" layoutX="15.0" layoutY="95.0" mnemonicParsing="false" onAction="#speed_up" prefHeight="24.0" prefWidth="40.0" text="+" />
+                  <Label layoutX="9.0" layoutY="40.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
+                  <Label layoutX="87.0" layoutY="67.0" prefHeight="16.0" prefWidth="40.0" text="speed" />
+                  <Button fx:id="default_speed" layoutX="60.0" layoutY="95.0" mnemonicParsing="false" onAction="#set_default_speed" prefHeight="24.0" prefWidth="90.0" text="default" />
+               </children>
+            </AnchorPane>
          </right>
       </BorderPane>
   </children>
