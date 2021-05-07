@@ -47,7 +47,9 @@ public class CartContent {
     public void loadItem() {
         if (this.shelf.size() > 0)
             this.ware = shelf.removeAny();
-    }
+        else
+            throw new ArithmeticException("V regalu neni dostatek zbozi!");
+    }   
 
     /**
      * unloadItem
