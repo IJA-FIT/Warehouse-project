@@ -20,6 +20,11 @@ public class WaitList {
     private Array arr = new Array();
 
 
+    /**
+     * WaitList
+     * Konstruktor třídy WaitList.
+     * Slouží k načtení položek ze souboru s objednávkami
+     */
     public WaitList() {
         Scanner reader = null;
         File file = new File("./data/Orders.txt");
