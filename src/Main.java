@@ -59,10 +59,6 @@ public class Main {
         // Ziskej mapu skladu pro zobrazeni
         int[] pos;
 
-        // Pridani polozek do wait_listu (listu, co maji voziky dovest)
-        wait_list.WaitList_Add("lampa_gorgc");
-        wait_list.WaitList_Add("kos_bred");
-        wait_list.WaitList_Add("zidle_omitka");
         // Vytisk originalni mapy
         mpp.printMap(map.getMap());
 
