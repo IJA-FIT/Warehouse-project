@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * WaitList slouží ke spravování seznamu objednávek.
+ */
 public class WaitList {
 
     /* WaitList 
