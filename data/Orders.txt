@@ -1,3 +1,7 @@
 lampa_gorgc
 kos_bred
 zidle_omitka
+zidle_omitka
+lampa_greg
+postel_avanti
+stul_kebab
