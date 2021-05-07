@@ -92,17 +92,21 @@ public class main_controller {
     private void get_item() {
             
         String str = textbox.getText();
+        boolean flag = false;
 
         // List l = loader.goods_list;
         for (String item : loader.goods_list) {
             if (item.equals(str)) {
-                this.wait_list.WaitList_add(item);
+                flag = true;
+                break;
             }
         }
-        System.out.println("it doesnt exists");
-
-        // pro jistotu mozna pouzit namisto == item.equals(Ziskana_Polozka)
-                // }
+        if (flag) {
+            wait_list.WaitList_Add(str);
+        }
+        else {
+            System.out.println("it doesnt exists");
+        }
     }
 
     @FXML 
