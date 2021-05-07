@@ -32,6 +32,8 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -139,7 +141,14 @@
             </ScrollPane>
          </center>
          <right>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ButtonBar prefHeight="40.0">
+                    <buttons>
+                      <Button fx:id="start_button" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#start_gui" prefHeight="24.0" prefWidth="184.0" text="Start" />
+                    </buttons>
+                  </ButtonBar>
+               </children></AnchorPane>
          </right>
       </BorderPane>
   </children>
