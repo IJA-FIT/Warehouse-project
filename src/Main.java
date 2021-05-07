@@ -63,7 +63,7 @@ public class Main extends Application {
 
         controller.main_loop_prepare();
 
-        controller.count_time();
+        
         
     }
 }

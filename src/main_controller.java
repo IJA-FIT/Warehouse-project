@@ -14,6 +14,9 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
@@ -27,10 +30,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
-import javafx.application.Platform;
+
 
 
 public class main_controller {
+
+    private int loop_started = 0;
 
     @FXML
     private AnchorPane main_content;
@@ -38,6 +43,9 @@ public class main_controller {
 
     @FXML
     private GridPane main_grid;
+
+    @FXML
+    private Button start_button;
 
     private Timer timer;
     private LocalTime time = LocalTime.now();
@@ -62,6 +70,14 @@ public class main_controller {
     private int[] pos;
 
     private ShelfManipulator regal;
+
+    @FXML 
+    private void start_gui(ActionEvent event) {
+        if(loop_started == 0) {
+            count_time();
+            loop_started = 1;
+        }
+    }
     
 
     @FXML
@@ -303,7 +319,7 @@ public class main_controller {
             });
 
             }
-        }, 0, 500);
+        }, 0, 50);
     }
 
     public void init_gui(int[][] map) {
