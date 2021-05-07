@@ -110,10 +110,12 @@ public class main_controller {
                         CartControl active = cart.free_carts.get(0);
                         cart.free_carts.remove(active); // odstran ho ze seznamu volnych
                         String dest = fnd.getDestination(regal.shelf_map, wait_list.WaitList[0]); // Ziskej souradnice, kam ma vozik dojet
+                        String regal_position = fnd.getIndex(regal.shelf_map, wait_list.WaitList[0]);
                         int[] destination = cnv.coordsInt(dest);    // zkonvertuj je
                         active.current_path = active.findPath(destination[0], destination[1]);  // Spocitej pocatecni cestu
                         wait_list.WaitList_Remove_First();  // Smaz z wait_listu zbozi, co vozik zpracovava
                         active.cart_go4ware = true;
+                        active.content.setShelf(regal.shelf_map.get(regal_position));
                     }
                 }
 
@@ -128,6 +130,8 @@ public class main_controller {
                                 cart1_flag = false; // Jedno kolo cekani (nakladani)
                                 cart.cart_loaded = true; // Je nalozeno, cesta do odberu
                                 cart.cart_go4ware = false; // Uz nejede pro zbozi
+                                cart.content.loadItem();
+                                cart.content.setShelf(null);
 
                                 int res = rng.getRandomNumber(rand_min, rand_max);
                                 int[] exit_point = cnv.coordsInt(end_points[res]);
@@ -158,6 +162,7 @@ public class main_controller {
                                 cart1_flag = false;
                                 cart.cart_loaded = false;   // vylozeno do vydeje
                                 cart.cart_start = true;
+                                cart.content.unloadItem();
 
                                 int[] start = cart.getOriginalStart(); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
                                 cart.current_path = cart.findPath(start[0], start[1]);    // cesta na start
@@ -210,6 +215,9 @@ public class main_controller {
                                 cart2_flag = false; // Jedno kolo cekani (nakladani)
                                 cart2.cart_loaded = true; // Je nalozeno, cesta do odberu
                                 cart2.cart_go4ware = false; // Uz nejede pro zbozi
+                                cart2.content.loadItem();
+                                cart2.content.setShelf(null);
+                                
 
                                 int res = rng.getRandomNumber(rand_min, rand_max);
                                 int[] exit_point = cnv.coordsInt(end_points[res]);
@@ -240,6 +248,7 @@ public class main_controller {
                                 cart2_flag = false;
                                 cart2.cart_loaded = false;   // vylozeno do vydeje
                                 cart2.cart_start = true;
+                                cart2.content.unloadItem();
 
                                 int[] start = cart2.getOriginalStart(); // Docasny hardcode cile (mozna random vybrat jeden z moznych?) (maybe permanent hardcode)
                                 cart2.current_path = cart2.findPath(start[0], start[1]);    // cesta na start
@@ -299,27 +308,13 @@ public class main_controller {
 
             map.mapSet(new_map);
 
-
-            // Provizorni ghetto verze zpozdeni v milisekundach
-            try { 
-                TimeUnit.MILLISECONDS.sleep(150);
-            }
-            // Nevim proc tu ten catch je, ale bez nej to nejde
-            catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-
-            // Vytiskni updatnutou mapu
-            // System.out.printf("************\n");
-            // mpp.printMap(map.getMap());
-
             Platform.runLater(() -> {
                 main_grid.getChildren().clear();
                 init_gui(map.getMap());
             });
 
             }
-        }, 0, 50);
+        }, 0, 500);
     }
 
     public void init_gui(int[][] map) {

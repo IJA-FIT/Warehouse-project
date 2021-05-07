@@ -32,6 +32,7 @@ public class CartControl {
     public boolean cart_loaded;
     public boolean cart_go4ware;
     public boolean cart_start;
+    public CartContent content;
 
     /**
     * CartControl Inicializace
@@ -41,7 +42,7 @@ public class CartControl {
     */
     public CartControl(String beginning) {
         int[] pair = cnv.coordsInt(beginning);
-        CartContent content = new CartContent();
+        content = new CartContent();
         this.position_x = pair[0];
         this.position_y = pair[1];
         this.start_x = this.position_x;

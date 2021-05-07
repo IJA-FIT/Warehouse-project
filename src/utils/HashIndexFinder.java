@@ -23,11 +23,11 @@ public class HashIndexFinder {
     // inspirovano https://stackoverflow.com/a/9009709
 
     /**
-    * getIndex
-    * Najde v mapě index prvku podle jeho hodnoty.
+    * getDestination
+    * Najde v mapě cíl, kam má vozík dojet.
     * @param regal Mapa reprezentující regál.
-    * @param searched Hodnota prvku, jehož index se hledá.
-    * @return Index prvku v textové podobě.
+    * @param searched Hodnota prvku, k němuž se má dojet.
+    * @return Cíl prvku v textové podobě.
     */
     public String getDestination(HashMap<String, GoodsShelf> regal, String searched) {
         for (Map.Entry<String, GoodsShelf> entry : regal.entrySet()) {
@@ -52,12 +52,19 @@ public class HashIndexFinder {
         return "error";
     }
 
+    /**
+    * getIndex
+    * Najde v mapě index prvku podle jeho hodnoty.
+    * @param regal Mapa reprezentující regál.
+    * @param searched Hodnota prvku, jehož index se hledá.
+    * @return Index prvku v textové podobě.
+    */
     public String getIndex(HashMap<String, GoodsShelf> regal, String searched) {
         for (Map.Entry<String, GoodsShelf> entry : regal.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue().getShelfType();
 
-            if (value == searched) {
+            if (value.equals(searched)) {
                 return key;
             }
         }
