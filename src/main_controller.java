@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
@@ -56,10 +57,17 @@ public class main_controller {
     @FXML
     private Button start_button;
 
+    @FXML
+    private TextField textbox;
+
+    @FXML 
+    private Button get_item_button;
+
     private Timer timer;
     private LocalTime time = LocalTime.now();
 
     // start of the main
+    private WarehouseLoader loader;
     private WaitList wait_list = new WaitList();
     private CoordsConverter cnv = new CoordsConverter();
     private HashIndexFinder fnd = new HashIndexFinder();
@@ -79,6 +87,23 @@ public class main_controller {
     private int[] pos;
 
     private ShelfManipulator regal;
+
+    @FXML
+    private void get_item() {
+            
+        String str = textbox.getText();
+
+        // List l = loader.goods_list;
+        for (String item : loader.goods_list) {
+            if (item.equals(str)) {
+                this.wait_list.WaitList_add(item);
+            }
+        }
+        System.out.println("it doesnt exists");
+
+        // pro jistotu mozna pouzit namisto == item.equals(Ziskana_Polozka)
+                // }
+    }
 
     @FXML 
     private void start_gui(ActionEvent event) {
@@ -366,9 +391,7 @@ public class main_controller {
         cart5 = new CartControl("10.22");
 
         init_gui(nm);
-
-        MapPrinter mpp = new MapPrinter();
-        WarehouseLoader loader = new WarehouseLoader(); // naplneni skladu
+        loader = new WarehouseLoader(); // naplneni skladu
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         regal = loader.controller;
@@ -376,8 +399,7 @@ public class main_controller {
         // Ziskej mapu skladu pro zobrazeni
 
 
-        // Vytisk originalni mapy
-        mpp.printMap(map.getMap());
+        // Vytisk originalni map
 
         // ukoncuju jenom kdyz vozik "dojede", coz je jen kvuli testum
 
