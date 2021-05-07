@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.stage.WindowEvent;
 import javafx.stage.Stage;
 // import jdk.javadoc.internal.tool.Start;
 import javafx.scene.Parent;
@@ -27,6 +28,7 @@ import src.map_manipulation.MapControl;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
+
 
 /**
  * Demonstrační třída sloužící k ukázce současné funkcionality programu.
@@ -63,7 +65,14 @@ public class Main extends Application {
 
         controller.main_loop_prepare();
 
-        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            
+            @Override
+            public void handle(WindowEvent e) {
+             Platform.exit();
+             System.exit(0);
+            }
+          });
         
     }
 }
