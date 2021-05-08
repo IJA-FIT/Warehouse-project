@@ -343,6 +343,7 @@ public class main_controller {
                     cart_flag = 1;
                     PopupBox.display("vozík", cart.content.getWare().goods().getName());
                 } else {
+                    cart_flag = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart2.getPosition()[0] == row && cart2.getPosition()[1] == column) {
@@ -350,6 +351,7 @@ public class main_controller {
                     cart_flag2 = 1;
                     PopupBox.display("vozík", cart2.content.getWare().goods().getName());
                 } else {
+                    cart_flag2 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart3.getPosition()[0] == row && cart3.getPosition()[1] == column) {
@@ -357,6 +359,7 @@ public class main_controller {
                     cart_flag3 = 1;
                     PopupBox.display("vozík", cart3.content.getWare().goods().getName());
                 } else {
+                    cart_flag3 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart4.getPosition()[0] == row && cart4.getPosition()[1] == column) {
@@ -364,6 +367,7 @@ public class main_controller {
                     cart_flag4 = 1;
                     PopupBox.display("vozík", cart4.content.getWare().goods().getName());
                 } else {
+                    cart_flag4 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart5.getPosition()[0] == row && cart5.getPosition()[1] == column) {
@@ -371,6 +375,7 @@ public class main_controller {
                     cart_flag5 = 1;
                     PopupBox.display("vozík", cart5.content.getWare().goods().getName());
                 } else {
+                    cart_flag5 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             }
