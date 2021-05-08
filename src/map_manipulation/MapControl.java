@@ -113,6 +113,11 @@ public class MapControl {
         return false;
     }
 
+    /**
+    * getNumberOfRegals
+    * Vrátí počet regálů.
+    * @return počet regálů
+    */
     public int getNumberOfRegals() {
         return load_map.getNumberOfShelves();
     }

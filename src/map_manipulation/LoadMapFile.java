@@ -88,6 +88,11 @@ public class LoadMapFile {
         return this.map;
     }
 
+    /**
+    * getNumberOfShelves
+    * Vrací počet polic ve skladu.
+    * @return Počet polic ve skladu.
+    */
     public int getNumberOfShelves() {
         return this.shelf_count;
     }

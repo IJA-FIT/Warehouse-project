@@ -2,6 +2,7 @@
 * main_controller
 * main_controller spravuje akce co se stanou v gui
 * @author Vojtěch Bubela <xbubel08>
+* @author Vojtěch Fiala <xfiala61>
 */
 
 
@@ -40,9 +41,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.HashMap;
+import java.util.ArrayList;
 
-
-
+/**
+ * Třída sloužící ke správě objektů v GUI.
+ */
 public class main_controller {
 
     private int loop_started = 0;
@@ -79,14 +83,17 @@ public class main_controller {
     private MenuItem help_menu;
 
     @FXML
-    private Label free_forklifts;
+    private TextField free_forklifts;
+
+    @FXML
+    private TextField cart_status;
 
     private Timer timer;
     private LocalTime time = LocalTime.now();
 
     // start of the main
     private WarehouseLoader loader;
-    private WaitList wait_list = new WaitList();
+    private WaitList wait_list;
     private CoordsConverter cnv = new CoordsConverter();
     private HashIndexFinder fnd = new HashIndexFinder();
     private MapControl map = new MapControl();
@@ -161,6 +168,13 @@ public class main_controller {
             count_time();
             loop_started = 1;
         }
+    }
+
+    @FXML 
+    private void restart_gui(ActionEvent event) {
+        main_loop_prepare();
+        count_time();
+        loop_started = 1;
     }
 
     @FXML
@@ -288,16 +302,6 @@ public class main_controller {
 
     private void onClick(MouseEvent event) {
 
-        if(cart_flag == 1 || cart_flag2 == 1|| cart_flag3 == 1 || cart_flag4 == 1|| cart_flag5 == 1) {
-            cart_flag = 0;
-            cart_flag2 = 0;
-            cart_flag3 = 0;
-            cart_flag4 = 0;
-            cart_flag5 = 0;
-
-            return;
-        }
-
         int column = GridPane.getColumnIndex((Node) event.getSource());
         int row = GridPane.getRowIndex((Node) event.getSource());
 
@@ -323,6 +327,16 @@ public class main_controller {
             PopupBox.display("regál", mssg);
             
         } else if (result == 7) {
+          
+            if(cart_flag == 1 || cart_flag2 == 1|| cart_flag3 == 1 || cart_flag4 == 1|| cart_flag5 == 1) {
+                cart_flag = 0;
+                cart_flag2 = 0;
+                cart_flag3 = 0;
+                cart_flag4 = 0;
+                cart_flag5 = 0;
+
+                return;
+            }
 
             System.out.println(cart.getPosition()[0]);
 
@@ -332,6 +346,7 @@ public class main_controller {
                     cart_flag = 1;
                     PopupBox.display("vozík", cart.content.getWare().goods().getName());
                 } else {
+                    cart_flag = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart2.getPosition()[0] == row && cart2.getPosition()[1] == column) {
@@ -339,6 +354,7 @@ public class main_controller {
                     cart_flag2 = 1;
                     PopupBox.display("vozík", cart2.content.getWare().goods().getName());
                 } else {
+                    cart_flag2 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart3.getPosition()[0] == row && cart3.getPosition()[1] == column) {
@@ -346,6 +362,7 @@ public class main_controller {
                     cart_flag3 = 1;
                     PopupBox.display("vozík", cart3.content.getWare().goods().getName());
                 } else {
+                    cart_flag3 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart4.getPosition()[0] == row && cart4.getPosition()[1] == column) {
@@ -353,6 +370,7 @@ public class main_controller {
                     cart_flag4 = 1;
                     PopupBox.display("vozík", cart4.content.getWare().goods().getName());
                 } else {
+                    cart_flag4 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             } else if(cart5.getPosition()[0] == row && cart5.getPosition()[1] == column) {
@@ -360,6 +378,7 @@ public class main_controller {
                     cart_flag5 = 1;
                     PopupBox.display("vozík", cart5.content.getWare().goods().getName());
                 } else {
+                    cart_flag5 = 1;
                     PopupBox.display("vozík", "Vozík je prázdný");
                 }
             }
@@ -379,6 +398,9 @@ public class main_controller {
         }
     }
 
+    /**
+    * Funkce sloužící k aktualizaci mapy danou rychlostí.
+    */
     public void count_time() {
         timer = new Timer(false);
         timer.scheduleAtFixedRate(new TimerTask(){
@@ -467,6 +489,12 @@ public class main_controller {
 
                 free_forklifts.setText(str);
 
+                if (size == 5) {
+                    cart_status.setText("Vsechno bylo vyrizene");
+                }
+                else {
+                    cart_status.setText("Objednavky se vyrizuji");
+                }
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
@@ -477,6 +505,10 @@ public class main_controller {
         }, 0,(int) timer_speed);
     }
 
+    /**
+    * Funkce sloužící k zobrazení správné mapy skladu.
+    * @param map Mapa, na základě které se zobrazí sklad.
+    */
     public void init_gui(int[][] map) {
 
         int row;
@@ -625,8 +657,14 @@ public class main_controller {
         }
     }
 
+    /**
+    * Funkce k inicializaci skladu.
+    * Používá se i v rámci případného restartu skladu.
+    */
     public void main_loop_prepare() {
-        
+        // vynuluj waitlist
+        wait_list.WaitList = new String[0];
+        wait_list = new WaitList();
 
         int[][] map_orig = map.getOriginalMap();
         int[][] nm = new int[map_orig.length][map_orig[0].length];
@@ -636,23 +674,56 @@ public class main_controller {
                 nm[i][k] = map_orig[i][k];
             }
         }
+        if (timer != null) {
+            timer.cancel();
+            timer_speed = 1000;
+        }
+        // vyresetuj flagy
+        cart_flag = 0;
+        cart_flag2 = 0;
+        cart_flag3 = 0;
+        cart_flag4 = 0;
+        cart_flag5 = 0;
 
         map.mapSet(nm);
+
+        // vyresetuj volne voziky
+        if (cart.free_carts != null)
+            cart.free_carts = new ArrayList<CartControl>();
         
         // Vytvoreni voziku
+        if (cart != null) {
+            cart = null;
+            cart2 = null;
+            cart3 = null;
+            cart4 = null;
+            cart5 = null; 
+        }
         cart = new CartControl("11.23");
         cart2 = new CartControl("11.22");
         cart3 = new CartControl("11.21");
         cart4 = new CartControl("10.23");
         cart5 = new CartControl("10.22");
 
+
         init_gui(nm);
+
+        if (regal != null) {
+            regal.shelf_map = new HashMap<String, GoodsShelf>();
+            regal = null;
+        }
+
+        // vynuluj seznam zbozi
+        loader.goods_list = new String[0];
+        loader = null;
         loader = new WarehouseLoader(); // naplneni skladu
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         regal = loader.controller;
 
-        free_forklifts.setText("0");
+        free_forklifts.setText(String.valueOf(cart.free_carts.size()));
+        cart_status.setText("Probiha inicializace...");
+        
 
     }
 }   
