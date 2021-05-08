@@ -1,7 +1,7 @@
 /**
- * Demonstrační třída sloužící k ukázce současné funkcionality programu.
+ * Třída sloužící k zapnutí GUI a inicializaci jeho prvků.
  *
- * @author Vojtěch Fiala <xfiala61>
+ * @author Vojtěch Bůbela <xbubel08>
  */
 
 
@@ -31,19 +31,24 @@ import java.util.Arrays;
 
 
 /**
- * Demonstrační třída sloužící k ukázce současné funkcionality programu.
+ * Třída sloužící ke spuštění GUI.
  */
 public class Main extends Application {
 
     
    
-
+    /**
+    * main funkce, která spustí GUI.
+    */
     public static void main(String[] args) {
 
         launch(args);
 
     }
 
+    /**
+    * Start funkce připraví GUI.
+    */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -70,6 +75,9 @@ public class Main extends Application {
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             
+        /**
+        * handle slouží ke korektnímu ukončení programu po kliknutí na křížek.
+        */
         @Override
         public void handle(WindowEvent e) {
             

@@ -2,6 +2,7 @@
 * main_controller
 * main_controller spravuje akce co se stanou v gui
 * @author Vojtěch Bubela <xbubel08>
+* @author Vojtěch Fiala <xfiala61>
 */
 
 
@@ -43,7 +44,9 @@ import java.util.TimerTask;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-
+/**
+ * Třída sloužící ke správě objektů v GUI.
+ */
 public class main_controller {
 
     private int loop_started = 0;
@@ -395,6 +398,9 @@ public class main_controller {
         }
     }
 
+    /**
+    * Funkce sloužící k aktualizaci mapy danou rychlostí.
+    */
     public void count_time() {
         timer = new Timer(false);
         timer.scheduleAtFixedRate(new TimerTask(){
@@ -500,6 +506,9 @@ public class main_controller {
         }, 0,(int) timer_speed);
     }
 
+    /**
+    * Funkce sloužící k zobrazení správné mapy skladu.
+    */
     public void init_gui(int[][] map) {
 
         int row;
@@ -648,6 +657,10 @@ public class main_controller {
         }
     }
 
+    /**
+    * Funkce k inicializaci skladu.
+    * Používá se i v rámci případného restartu skladu.
+    */
     public void main_loop_prepare() {
         // vynuluj waitlist
         wait_list.WaitList = new String[0];
