@@ -79,7 +79,10 @@ public class main_controller {
     private MenuItem help_menu;
 
     @FXML
-    private Label free_forklifts;
+    private TextField free_forklifts;
+
+    @FXML
+    private TextField cart_status;
 
     private Timer timer;
     private LocalTime time = LocalTime.now();
@@ -467,6 +470,13 @@ public class main_controller {
 
                 free_forklifts.setText(str);
 
+                if (size == 5) {
+                    cart_status.setText("Vsechno bylo vyrizene");
+                }
+                else {
+                    cart_status.setText("Objednavky se vyrizuji");
+                }
+
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
@@ -652,7 +662,9 @@ public class main_controller {
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         regal = loader.controller;
 
-        free_forklifts.setText("0");
+        free_forklifts.setText(String.valueOf(cart.free_carts.size()));
+        cart_status.setText("Probiha inicializace...");
+        
 
     }
 }   
