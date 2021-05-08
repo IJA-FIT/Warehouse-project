@@ -327,7 +327,7 @@ public class main_controller {
             PopupBox.display("regál", mssg);
             
         } else if (result == 7) {
-
+          
             if(cart_flag == 1 || cart_flag2 == 1|| cart_flag3 == 1 || cart_flag4 == 1|| cart_flag5 == 1) {
                 cart_flag = 0;
                 cart_flag2 = 0;
@@ -495,7 +495,6 @@ public class main_controller {
                 else {
                     cart_status.setText("Objednavky se vyrizuji");
                 }
-
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
