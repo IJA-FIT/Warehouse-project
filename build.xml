@@ -41,6 +41,7 @@
             <fileset dir="src/resources" includes="vydejni_misto.png"></fileset>
             <fileset dir="src/resources" includes="ground.png"></fileset>
             <fileset dir="src/resources" includes="block.png"></fileset>
+            <fileset dir="src/resources" includes="trail.png"></fileset>
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
