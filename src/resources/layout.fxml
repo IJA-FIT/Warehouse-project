@@ -124,19 +124,20 @@
                       <Button fx:id="start_button" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#start_gui" prefHeight="24.0" prefWidth="184.0" text="Start" />
                     </buttons>
                   </ButtonBar>
-                  <Button fx:id="slow_button" layoutX="157.0" layoutY="95.0" mnemonicParsing="false" onAction="#slow_down" prefHeight="24.0" prefWidth="40.0" text="-" />
-                  <Button fx:id="speed_button" layoutX="15.0" layoutY="95.0" mnemonicParsing="false" onAction="#speed_up" prefHeight="24.0" prefWidth="40.0" text="+" />
-                  <Label layoutX="9.0" layoutY="40.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
-                  <Label layoutX="75.0" layoutY="67.0" prefHeight="16.0" prefWidth="61.0" text="Rychlost" />
-                  <Button fx:id="default_speed" layoutX="60.0" layoutY="95.0" mnemonicParsing="false" onAction="#set_default_speed" prefHeight="24.0" prefWidth="90.0" text="základní" />
-                  <Label layoutX="10.0" layoutY="129.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
-                  <Label layoutX="65.0" layoutY="156.0" text="Dovez zboží" />
-                  <TextField fx:id="textbox" layoutX="20.0" layoutY="178.0" promptText="Zadej zboží ze seznamu" />
-                  <Button fx:id="get_item_button" layoutX="20.0" layoutY="211.0" mnemonicParsing="false" onAction="#get_item" prefHeight="24.0" prefWidth="170.0" text="dovez" />
-                  <Label layoutX="11.0" layoutY="242.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
-                  <Label layoutX="56.0" layoutY="269.0" text="Počet volných vozíků:" />
-                  <TextField fx:id="free_forklifts" layoutX="17.0" layoutY="259.0" prefHeight="36.0" prefWidth="32.0"/>
-                  <TextField fx:id="cart_status" layoutX="20.0" layoutY="305.0"/>
+                  <Button fx:id="restart_button" layoutX="10.0" layoutY="40.0" mnemonicParsing="false" onAction="#restart_gui" prefHeight="24.0" prefWidth="184.0" text="Restart" />
+                  <Label layoutX="9.0" layoutY="60.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
+                  <Label layoutX="75.0" layoutY="87.0" prefHeight="16.0" prefWidth="61.0" text="Rychlost" />
+                  <Button fx:id="slow_button" layoutX="157.0" layoutY="115.0" mnemonicParsing="false" onAction="#slow_down" prefHeight="24.0" prefWidth="40.0" text="-" />
+                  <Button fx:id="speed_button" layoutX="15.0" layoutY="115.0" mnemonicParsing="false" onAction="#speed_up" prefHeight="24.0" prefWidth="40.0" text="+" />
+                  <Button fx:id="default_speed" layoutX="60.0" layoutY="115.0" mnemonicParsing="false" onAction="#set_default_speed" prefHeight="24.0" prefWidth="90.0" text="základní" />
+                  <Label layoutX="10.0" layoutY="149.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
+                  <Label layoutX="65.0" layoutY="176.0" text="Dovez zboží" />
+                  <TextField fx:id="textbox" layoutX="20.0" layoutY="198.0" promptText="Zadej zboží ze seznamu" />
+                  <Button fx:id="get_item_button" layoutX="20.0" layoutY="231.0" mnemonicParsing="false" onAction="#get_item" prefHeight="24.0" prefWidth="170.0" text="dovez" />
+                  <Label layoutX="11.0" layoutY="262.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
+                  <Label layoutX="56.0" layoutY="289.0" text="Počet volných vozíků:" />
+                  <TextField fx:id="free_forklifts" layoutX="17.0" layoutY="279.0" prefHeight="30.0" prefWidth="32.0"/>
+                  <TextField fx:id="cart_status" layoutX="20.0" layoutY="325.0"/>
                </children>
             </AnchorPane>
          </right>

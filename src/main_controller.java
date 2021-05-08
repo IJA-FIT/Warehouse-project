@@ -40,7 +40,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.HashMap;
+import java.util.ArrayList;
 
 
 public class main_controller {
@@ -89,7 +90,7 @@ public class main_controller {
 
     // start of the main
     private WarehouseLoader loader;
-    private WaitList wait_list = new WaitList();
+    private WaitList wait_list;
     private CoordsConverter cnv = new CoordsConverter();
     private HashIndexFinder fnd = new HashIndexFinder();
     private MapControl map = new MapControl();
@@ -164,6 +165,13 @@ public class main_controller {
             count_time();
             loop_started = 1;
         }
+    }
+
+    @FXML 
+    private void restart_gui(ActionEvent event) {
+        main_loop_prepare();
+        count_time();
+        loop_started = 1;
     }
 
     @FXML
@@ -636,7 +644,9 @@ public class main_controller {
     }
 
     public void main_loop_prepare() {
-        
+        // vynuluj waitlist
+        wait_list.WaitList = new String[0];
+        wait_list = new WaitList();
 
         int[][] map_orig = map.getOriginalMap();
         int[][] nm = new int[map_orig.length][map_orig[0].length];
@@ -646,17 +656,48 @@ public class main_controller {
                 nm[i][k] = map_orig[i][k];
             }
         }
+        if (timer != null) {
+            timer.cancel();
+            timer_speed = 1000;
+        }
+        // vyresetuj flagy
+        cart_flag = 0;
+        cart_flag2 = 0;
+        cart_flag3 = 0;
+        cart_flag4 = 0;
+        cart_flag5 = 0;
 
         map.mapSet(nm);
+
+        // vyresetuj volne voziky
+        if (cart.free_carts != null)
+            cart.free_carts = new ArrayList<CartControl>();
         
         // Vytvoreni voziku
+        if (cart != null) {
+            cart = null;
+            cart2 = null;
+            cart3 = null;
+            cart4 = null;
+            cart5 = null; 
+        }
         cart = new CartControl("11.23");
         cart2 = new CartControl("11.22");
         cart3 = new CartControl("11.21");
         cart4 = new CartControl("10.23");
         cart5 = new CartControl("10.22");
 
+
         init_gui(nm);
+
+        if (regal != null) {
+            regal.shelf_map = new HashMap<String, GoodsShelf>();
+            regal = null;
+        }
+
+        // vynuluj seznam zbozi
+        loader.goods_list = new String[0];
+        loader = null;
         loader = new WarehouseLoader(); // naplneni skladu
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
