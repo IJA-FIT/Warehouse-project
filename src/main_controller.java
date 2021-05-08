@@ -10,6 +10,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DisplacementMap;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -97,6 +99,7 @@ public class main_controller {
     private Image start = new Image("/parking_slot.png");
     private Image forklift = new Image("/forklift.png");
     private Image ground = new Image("/ground.png");
+    private Image block = new Image("/block.png");
 
     private ObservableList<Node> childrens;
 
@@ -117,7 +120,7 @@ public class main_controller {
             wait_list.WaitList_Add(str);
         }
         else {
-            System.out.println("it doesnt exists");
+            PopupBox.display("Dovez", "Zboží neexistuje, zkuste to znovu");
         }
     }
 
@@ -193,7 +196,7 @@ public class main_controller {
                 cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
 
-                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+                // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
                 // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
                 if (cart.current_path.length > 1) {
                 // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -221,7 +224,7 @@ public class main_controller {
                 int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
                 cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-                System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+                // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
                 // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
                 if (cart.current_path.length > 1) {
                     // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -239,7 +242,7 @@ public class main_controller {
             int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
             cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-            System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
+            // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
             // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
             if (cart.current_path.length > 1) {
                 // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -258,6 +261,8 @@ public class main_controller {
 
 
         int result = this.map.getItem(row, column);
+
+        System.out.println(result);
 
 
         if(result == 5) {
@@ -278,7 +283,17 @@ public class main_controller {
         } else if (result == 7) {
             // display path of cart
         } else if (result == 1) {
-            // display prekazka
+            map.insertObstacle(row, column);
+            ImageView new_image = new ImageView(this.block);
+            new_image.setFitHeight(65);
+            new_image.setFitWidth(47);
+            main_grid.add(new_image ,column,row);
+        } else if (result == 3) {
+            map.removeObstacle(row, column);
+            ImageView new_image = new ImageView(this.ground);
+            new_image.setFitHeight(65);
+            new_image.setFitWidth(47);
+            main_grid.add(new_image ,column,row);
         }
     }
 
@@ -343,6 +358,7 @@ public class main_controller {
 
                 int[][] orig_map = map.getOriginalMap();
                 int[][] new_map = new int[orig_map.length][orig_map[0].length];
+                int[][] curr_map = map.getMap();
                 int[] cart1_pos = cart.getPosition();
                 int[] cart2_pos = cart2.getPosition();
                 int[] cart3_pos = cart3.getPosition();
@@ -354,6 +370,8 @@ public class main_controller {
                         if ((cart1_pos[0] == i && cart1_pos[1] == k) || (cart2_pos[0] == i && cart2_pos[1] == k) ||
                         (cart3_pos[0] == i && cart3_pos[1] == k) || (cart4_pos[0] == i && cart4_pos[1] == k) || (cart5_pos[0] == i && cart5_pos[1] == k))
                             new_map[i][k] = 7;
+                        else if (curr_map[i][k] == 3)
+                            new_map[i][k] = 3;
                         else 
                             new_map[i][k] = orig_map[i][k];
                     }
@@ -361,11 +379,6 @@ public class main_controller {
 
                 map.mapSet(new_map);
 
-
-
-                // Vytiskni updatnutou mapu
-                // System.out.printf("************\n");
-                // mpp.printMap(map.getMap());
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
@@ -408,6 +421,11 @@ public class main_controller {
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 1) {
                     ImageView new_image = new ImageView(this.ground);
+                    new_image.setFitHeight(65);
+                    new_image.setFitWidth(47);
+                    main_grid.add(new_image ,k,i);
+                } else if (map[i][k] == 3) {
+                    ImageView new_image = new ImageView(this.block);
                     new_image.setFitHeight(65);
                     new_image.setFitWidth(47);
                     main_grid.add(new_image ,k,i);
