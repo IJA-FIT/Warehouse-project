@@ -508,6 +508,7 @@ public class main_controller {
 
     /**
     * Funkce sloužící k zobrazení správné mapy skladu.
+    * @param map Mapa, na základě které se zobrazí sklad.
     */
     public void init_gui(int[][] map) {
 

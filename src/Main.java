@@ -39,6 +39,7 @@ public class Main extends Application {
    
     /**
     * main funkce, která spustí GUI.
+    * @param args Vstupní argumenty programu
     */
     public static void main(String[] args) {
 
