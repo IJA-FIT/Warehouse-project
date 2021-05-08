@@ -51,6 +51,8 @@ public class Main extends Application {
 
         VBox root = myloader.load();
 
+
+
         
         MapControl map = new MapControl();
 
@@ -67,12 +69,13 @@ public class Main extends Application {
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             
-            @Override
-            public void handle(WindowEvent e) {
-             Platform.exit();
-             System.exit(0);
+        @Override
+        public void handle(WindowEvent e) {
+            
+            Platform.exit();
+            System.exit(0);
             }
-          });
+        });
         
     }
 }
