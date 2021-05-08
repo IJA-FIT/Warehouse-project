@@ -18,12 +18,14 @@ import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DisplacementMap;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.collections.ObservableList;
+import javafx.scene.control.MenuItem;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
@@ -70,6 +72,15 @@ public class main_controller {
     @FXML 
     private Button get_item_button;
 
+    @FXML
+    private MenuItem menu_quit;
+
+    @FXML
+    private MenuItem help_menu;
+
+    @FXML
+    private Label free_forklifts;
+
     private Timer timer;
     private LocalTime time = LocalTime.now();
 
@@ -87,6 +98,12 @@ public class main_controller {
     private CartControl cart4;
     private CartControl cart5;
 
+    private int cart_flag = 0;
+    private int cart_flag2 = 0;
+    private int cart_flag3 = 0;
+    private int cart_flag4 = 0;
+    private int cart_flag5 = 0;
+
     private String[] end_points = {"0.23", "0.22"};
     private int rand_min = 0;
     private int rand_max = end_points.length;   // Tady by logicky melo byt -1, ale tohle funguje lip
@@ -100,8 +117,22 @@ public class main_controller {
     private Image forklift = new Image("/forklift.png");
     private Image ground = new Image("/ground.png");
     private Image block = new Image("/block.png");
+    private Image trail = new Image("/trail.png");
 
     private ObservableList<Node> childrens;
+
+    @FXML
+    private void display_help(ActionEvent event) {
+
+        String help = "Aplikace se ovláda pomocí bočního panelu\na interaktivní hlavní plochy\nV mape skladu se dá kliknout na:\nvozík, regál nebo zem";
+        PopupBox.display("Nápověda", help);
+    }
+
+    @FXML
+    private void menu_quit_program(ActionEvent event) {
+        Platform.exit();
+        System.exit(0);
+    }
 
     @FXML
     private void get_item() {
@@ -256,6 +287,17 @@ public class main_controller {
     }
 
     private void onClick(MouseEvent event) {
+
+        if(cart_flag == 1 || cart_flag2 == 1|| cart_flag3 == 1 || cart_flag4 == 1|| cart_flag5 == 1) {
+            cart_flag = 0;
+            cart_flag2 = 0;
+            cart_flag3 = 0;
+            cart_flag4 = 0;
+            cart_flag5 = 0;
+
+            return;
+        }
+
         int column = GridPane.getColumnIndex((Node) event.getSource());
         int row = GridPane.getRowIndex((Node) event.getSource());
 
@@ -281,7 +323,47 @@ public class main_controller {
             PopupBox.display("regál", mssg);
             
         } else if (result == 7) {
-            // display path of cart
+
+            System.out.println(cart.getPosition()[0]);
+
+
+            if(cart.getPosition()[0] == row && cart.getPosition()[1] == column) {
+                if(cart.content.getWare() != null) {
+                    cart_flag = 1;
+                    PopupBox.display("vozík", cart.content.getWare().goods().getName());
+                } else {
+                    PopupBox.display("vozík", "Vozík je prázdný");
+                }
+            } else if(cart2.getPosition()[0] == row && cart2.getPosition()[1] == column) {
+                if(cart2.content.getWare() != null) {
+                    cart_flag2 = 1;
+                    PopupBox.display("vozík", cart2.content.getWare().goods().getName());
+                } else {
+                    PopupBox.display("vozík", "Vozík je prázdný");
+                }
+            } else if(cart3.getPosition()[0] == row && cart3.getPosition()[1] == column) {
+                if(cart3.content.getWare() != null) {
+                    cart_flag3 = 1;
+                    PopupBox.display("vozík", cart3.content.getWare().goods().getName());
+                } else {
+                    PopupBox.display("vozík", "Vozík je prázdný");
+                }
+            } else if(cart4.getPosition()[0] == row && cart4.getPosition()[1] == column) {
+                if(cart4.content.getWare() != null) {
+                    cart_flag4 = 1;
+                    PopupBox.display("vozík", cart4.content.getWare().goods().getName());
+                } else {
+                    PopupBox.display("vozík", "Vozík je prázdný");
+                }
+            } else if(cart5.getPosition()[0] == row && cart5.getPosition()[1] == column) {
+                if(cart5.content.getWare() != null) {
+                    cart_flag5 = 1;
+                    PopupBox.display("vozík", cart5.content.getWare().goods().getName());
+                } else {
+                    PopupBox.display("vozík", "Vozík je prázdný");
+                }
+            }
+
         } else if (result == 1) {
             map.insertObstacle(row, column);
             ImageView new_image = new ImageView(this.block);
@@ -379,6 +461,12 @@ public class main_controller {
 
                 map.mapSet(new_map);
 
+                int size = cart.free_carts.size();
+
+                String str = String.valueOf(size);
+
+                free_forklifts.setText(str);
+
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
@@ -391,10 +479,97 @@ public class main_controller {
 
     public void init_gui(int[][] map) {
 
-
+        int row;
+        int col;
+        int pole[];
 
         for(int i = 0; i < map.length; i++) {
             for (int k = 0; k < map[0].length; k++) {
+
+                int match_found = 0;
+
+                if(cart_flag == 1) {
+                    if(cart.current_path != null) {
+                    
+                        for(int j = 0; j < cart.current_path.length; j++) {
+                            pole = cnv.coordsInt(cart.current_path[j]);
+                            row = pole[0];
+                            col = pole[1];
+
+                            if(row == i && col == k) {
+                                match_found = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(cart_flag2 == 1) {
+                    if(cart2.current_path != null) {
+                    
+                        for(int j = 0; j < cart2.current_path.length; j++) {
+                            pole = cnv.coordsInt(cart2.current_path[j]);
+                            row = pole[0];
+                            col = pole[1];
+
+                            if(row == i && col == k) {
+                                match_found = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(cart_flag3 == 1) {
+                    if(cart.current_path != null) {
+                    
+                        for(int j = 0; j < cart3.current_path.length; j++) {
+                            pole = cnv.coordsInt(cart3.current_path[j]);
+                            row = pole[0];
+                            col = pole[1];
+
+                            if(row == i && col == k) {
+                                match_found = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                if(cart_flag4 == 1) {
+                    if(cart4.current_path != null) {
+                    
+                        for(int j = 0; j < cart4.current_path.length; j++) {
+                            pole = cnv.coordsInt(cart4.current_path[j]);
+                            row = pole[0];
+                            col = pole[1];
+
+                            if(row == i && col == k) {
+                                match_found = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(cart_flag5 == 1) {
+                    if(cart5.current_path != null) {
+                    
+                        for(int j = 0; j < cart5.current_path.length; j++) {
+                            pole = cnv.coordsInt(cart5.current_path[j]);
+                            row = pole[0];
+                            col = pole[1];
+
+                            if(row == i && col == k) {
+                                match_found = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
                 if(map[i][k] == 5) {
                     Rectangle rec = new Rectangle(30,50);
                     main_grid.add(rec ,k,i);
@@ -420,10 +595,18 @@ public class main_controller {
                     new_image.setFitWidth(70);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 1) {
-                    ImageView new_image = new ImageView(this.ground);
-                    new_image.setFitHeight(65);
-                    new_image.setFitWidth(47);
-                    main_grid.add(new_image ,k,i);
+                    if(match_found == 1) {
+                        ImageView new_image = new ImageView(this.trail);
+                        new_image.setFitHeight(65);
+                        new_image.setFitWidth(47);
+                        main_grid.add(new_image ,k,i);
+                    } else {
+                        ImageView new_image = new ImageView(this.ground);
+                        new_image.setFitHeight(65);
+                        new_image.setFitWidth(47);
+                        main_grid.add(new_image ,k,i);
+                    }
+
                 } else if (map[i][k] == 3) {
                     ImageView new_image = new ImageView(this.block);
                     new_image.setFitHeight(65);
@@ -468,6 +651,8 @@ public class main_controller {
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         regal = loader.controller;
+
+        free_forklifts.setText("0");
 
     }
 }   
