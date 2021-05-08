@@ -18,12 +18,17 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.collections.ObservableList;
 
 import src.shelf_manipulation.store.*;
 import src.shelf_manipulation.goods.*;
 import src.cart.*;
 import src.utils.*;
 import src.map_manipulation.MapControl;
+import src.GUI.boxes.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -88,6 +93,13 @@ public class main_controller {
 
     private ShelfManipulator regal;
 
+    private Image vydej = new Image("/vydejni_misto.png");
+    private Image start = new Image("/parking_slot.png");
+    private Image forklift = new Image("/forklift.png");
+    private Image ground = new Image("/ground.png");
+
+    private ObservableList<Node> childrens;
+
     @FXML
     private void get_item() {
             
@@ -142,9 +154,6 @@ public class main_controller {
         timer_speed = 1000;
         count_time();
     }
-
-
-    
 
     @FXML
     private void on_zoom(ScrollEvent event) {
@@ -243,6 +252,36 @@ public class main_controller {
         }
     }
 
+    private void onClick(MouseEvent event) {
+        int column = GridPane.getColumnIndex((Node) event.getSource());
+        int row = GridPane.getRowIndex((Node) event.getSource());
+
+
+        int result = this.map.getItem(row, column);
+
+
+        if(result == 5) {
+            String str = cnv.convertCoords(row, column);
+
+            if(regal.shelf_map.get(str) == null) {
+                PopupBox.display("regal", "regál je prazdný");
+                return;
+            } 
+            
+            String goods_type = regal.shelf_map.get(str).getShelfType();
+            int polozky = regal.shelf_map.get(str).size();
+            
+            String mssg = goods_type + " : " + polozky;
+            
+            PopupBox.display("regál", mssg);
+            
+        } else if (result == 7) {
+            // display path of cart
+        } else if (result == 1) {
+            // display prekazka
+        }
+    }
+
     public void count_time() {
         timer = new Timer(false);
         timer.scheduleAtFixedRate(new TimerTask(){
@@ -338,7 +377,9 @@ public class main_controller {
     }
 
     public void init_gui(int[][] map) {
-    
+
+
+
         for(int i = 0; i < map.length; i++) {
             for (int k = 0; k < map[0].length; k++) {
                 if(map[i][k] == 5) {
@@ -349,27 +390,37 @@ public class main_controller {
                 } else if(map[i][k] == 9) {
                     // obrazek je prevzaty z:
                     // https://www.pinterest.com/pin/342203271663134343/
-                    Image rec = new Image("/vydejni_misto.png");
-                    ImageView new_image = new ImageView(rec);
+                    ImageView new_image = new ImageView(vydej);
                     new_image.setFitHeight(50);
                     new_image.setFitWidth(50);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 0) {
                     // Rectangle rec = new Rectangle(30,50);
-                    Image rec = new Image("/parking_slot.png");
-                    ImageView new_image = new ImageView(rec);
+                    ImageView new_image = new ImageView(start);
                     new_image.setFitHeight(50);
                     new_image.setFitWidth(50);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 7) {
                     // Rectangle rec = new Rectangle(30,50);
-                    Image rec = new Image("/forklift.png");
-                    ImageView new_image = new ImageView(rec);
+                    ImageView new_image = new ImageView(forklift);
                     new_image.setFitHeight(70);
                     new_image.setFitWidth(70);
                     main_grid.add(new_image ,k,i);
+                } else if (map[i][k] == 1) {
+                    ImageView new_image = new ImageView(this.ground);
+                    new_image.setFitHeight(65);
+                    new_image.setFitWidth(47);
+                    main_grid.add(new_image ,k,i);
                 }
+
             }
+        }
+
+        Node result = null;
+        childrens = main_grid.getChildren();
+
+        for (Node node : childrens) {
+            node.setOnMouseClicked(this::onClick);
         }
     }
 
@@ -399,17 +450,6 @@ public class main_controller {
 
         // Kontrolni regal, ktery je pouzit k pristupu k ostatnim
         regal = loader.controller;
-
-        // Ziskej mapu skladu pro zobrazeni
-
-
-        // Vytisk originalni map
-
-        // ukoncuju jenom kdyz vozik "dojede", coz je jen kvuli testum
-
-
-        
-
 
     }
 }   
