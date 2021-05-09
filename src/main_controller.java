@@ -111,7 +111,7 @@ public class main_controller {
     private int cart_flag4 = 0;
     private int cart_flag5 = 0;
 
-    private String[] end_points = {"0.23", "0.22"};
+    private String[] end_points = {"0.37", "0.38", "0.39"};
     private int rand_min = 0;
     private int rand_max = end_points.length;   // Tady by logicky melo byt -1, ale tohle funguje lip
 
@@ -699,11 +699,11 @@ public class main_controller {
             cart4 = null;
             cart5 = null; 
         }
-        cart = new CartControl("11.23");
-        cart2 = new CartControl("11.22");
-        cart3 = new CartControl("11.21");
-        cart4 = new CartControl("10.23");
-        cart5 = new CartControl("10.22");
+        cart = new CartControl("11.38");
+        cart2 = new CartControl("11.37");
+        cart3 = new CartControl("11.36");
+        cart4 = new CartControl("10.38");
+        cart5 = new CartControl("10.37");
 
 
         init_gui(nm);
