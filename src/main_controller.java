@@ -184,7 +184,7 @@ public class main_controller {
     private void slow_down(ActionEvent event) {
         if(timer_speed <= 4000) {
             timer.cancel();
-            timer_speed = 2 * timer_speed;
+            timer_speed = 1.6 * timer_speed;
             count_time();
         }
     }
@@ -193,7 +193,7 @@ public class main_controller {
     private void speed_up(ActionEvent event) {
         if(timer_speed >= 250) {
             timer.cancel();
-            timer_speed = 0.5 * timer_speed;
+            timer_speed = 0.625 * timer_speed;
             count_time();
         }
     }
@@ -272,7 +272,6 @@ public class main_controller {
                 int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
                 cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-                // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
                 // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
                 if (cart.current_path.length > 1) {
                     // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -290,7 +289,6 @@ public class main_controller {
             int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
             cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-            // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
             // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
             if (cart.current_path.length > 1) {
                 // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -308,11 +306,7 @@ public class main_controller {
         int column = GridPane.getColumnIndex((Node) event.getSource());
         int row = GridPane.getRowIndex((Node) event.getSource());
 
-
         int result = this.map.getItem(row, column);
-
-        System.out.println(result);
-
 
         if(result == 5) {
             String str = cnv.convertCoords(row, column);

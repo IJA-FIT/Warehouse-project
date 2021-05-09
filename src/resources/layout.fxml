@@ -151,10 +151,10 @@
                   <Button fx:id="get_item_button" layoutX="20.0" layoutY="231.0" mnemonicParsing="false" onAction="#get_item" prefHeight="24.0" prefWidth="170.0" text="dovez" />
                   <Label layoutX="11.0" layoutY="262.0" prefHeight="27.0" prefWidth="201.0" text="-----------------------------------------" />
                   <Label layoutX="61.0" layoutY="288.0" text="Počet volných vozíků:" />
-                  <TextField fx:id="pending_orders" layoutX="18.0" layoutY="314.0" prefHeight="24.0" prefWidth="29.0" />
+                  <TextField fx:id="pending_orders" layoutX="18.0" layoutY="314.0" prefHeight="24.0" prefWidth="37.0" />
                   <TextField fx:id="cart_status" layoutX="16.0" layoutY="347.0" />
-                  <Label layoutX="56.0" layoutY="317.0" text="Objednávky k vyřízení:" />
-                  <TextField fx:id="free_forklifts" layoutX="19.0" layoutY="284.0" prefHeight="24.0" prefWidth="29.0" />
+                  <Label layoutX="56.0" layoutY="317.0" text="Objednávky ve frontě:" />
+                  <TextField fx:id="free_forklifts" layoutX="19.0" layoutY="284.0" prefHeight="24.0" prefWidth="37.0" />
                </children>
             </AnchorPane>
          </right>
