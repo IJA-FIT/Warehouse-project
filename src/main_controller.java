@@ -114,7 +114,7 @@ public class main_controller {
     private int cart_flag4 = 0;
     private int cart_flag5 = 0;
 
-    private String[] end_points = {"0.23", "0.22"};
+    private String[] end_points = {"0.37", "0.38", "0.39"};
     private int rand_min = 0;
     private int rand_max = end_points.length;   // Tady by logicky melo byt -1, ale tohle funguje lip
 
@@ -389,14 +389,14 @@ public class main_controller {
         } else if (result == 1) {
             map.insertObstacle(row, column);
             ImageView new_image = new ImageView(this.block);
-            new_image.setFitHeight(65);
-            new_image.setFitWidth(47);
+            new_image.setFitHeight(50);
+            new_image.setFitWidth(30);
             main_grid.add(new_image ,column,row);
         } else if (result == 3) {
             map.removeObstacle(row, column);
             ImageView new_image = new ImageView(this.ground);
-            new_image.setFitHeight(65);
-            new_image.setFitWidth(47);
+            new_image.setFitHeight(50);
+            new_image.setFitWidth(30);
             main_grid.add(new_image ,column,row);
         }
     }
@@ -627,37 +627,37 @@ public class main_controller {
                     // https://www.pinterest.com/pin/342203271663134343/
                     ImageView new_image = new ImageView(vydej);
                     new_image.setFitHeight(50);
-                    new_image.setFitWidth(50);
+                    new_image.setFitWidth(30);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 0) {
                     // Rectangle rec = new Rectangle(30,50);
                     ImageView new_image = new ImageView(start);
                     new_image.setFitHeight(50);
-                    new_image.setFitWidth(50);
+                    new_image.setFitWidth(30);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 7) {
                     // Rectangle rec = new Rectangle(30,50);
                     ImageView new_image = new ImageView(forklift);
-                    new_image.setFitHeight(70);
-                    new_image.setFitWidth(70);
+                    new_image.setFitHeight(50);
+                    new_image.setFitWidth(30);
                     main_grid.add(new_image ,k,i);
                 } else if (map[i][k] == 1) {
                     if(match_found == 1) {
                         ImageView new_image = new ImageView(this.trail);
-                        new_image.setFitHeight(65);
-                        new_image.setFitWidth(47);
+                        new_image.setFitHeight(50);
+                        new_image.setFitWidth(30);
                         main_grid.add(new_image ,k,i);
                     } else {
                         ImageView new_image = new ImageView(this.ground);
-                        new_image.setFitHeight(65);
-                        new_image.setFitWidth(47);
+                        new_image.setFitHeight(50);
+                        new_image.setFitWidth(30);
                         main_grid.add(new_image ,k,i);
                     }
 
                 } else if (map[i][k] == 3) {
                     ImageView new_image = new ImageView(this.block);
-                    new_image.setFitHeight(65);
-                    new_image.setFitWidth(47);
+                    new_image.setFitHeight(50);
+                    new_image.setFitWidth(30);
                     main_grid.add(new_image ,k,i);
                 }
 
@@ -714,11 +714,11 @@ public class main_controller {
             cart4 = null;
             cart5 = null; 
         }
-        cart = new CartControl("11.23");
-        cart2 = new CartControl("11.22");
-        cart3 = new CartControl("11.21");
-        cart4 = new CartControl("10.23");
-        cart5 = new CartControl("10.22");
+        cart = new CartControl("11.38");
+        cart2 = new CartControl("11.37");
+        cart3 = new CartControl("11.36");
+        cart4 = new CartControl("10.38");
+        cart5 = new CartControl("10.37");
 
 
         init_gui(nm);
