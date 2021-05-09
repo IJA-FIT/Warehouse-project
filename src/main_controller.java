@@ -5,6 +5,8 @@
 * @author Vojtěch Fiala <xfiala61>
 */
 
+package src.main;
+
 
 import javafx.fxml.FXML;
 import javafx.scene.input.ScrollEvent;
