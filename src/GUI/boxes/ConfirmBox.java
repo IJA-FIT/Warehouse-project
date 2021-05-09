@@ -1,7 +1,7 @@
 /**
  * ConfirmBox
- * Template for confirm window, takes text argument and name of the window as argument
- * author: Vojtěch Bůbela
+ * generické okno, kterému se při zavolání předá jaký má mít název a text, nasledne se potvrdi ano ne
+ * author: Vojtěch Bůbela <xbubel08>
  */
 
 import javafx.stage.*;
