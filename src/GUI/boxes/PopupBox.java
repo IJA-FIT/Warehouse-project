@@ -1,6 +1,7 @@
 /**
- * author: Vojtěch Bůbela
- * login: xbubel08
+ * PopupBox
+ * generické okno, kterému se při zavolání předá jaký má mít název a text
+ * author: Vojtěch Bůbela <xbubel08>
  */
 
 package src.GUI.boxes;

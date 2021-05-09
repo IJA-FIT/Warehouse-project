@@ -1,7 +1,6 @@
 /**
 * Array
 * Array zajišťuje operace nad arrayi typu String.
-* 
 * @author Vojtěch Fiala <xfiala61>
 */
 
