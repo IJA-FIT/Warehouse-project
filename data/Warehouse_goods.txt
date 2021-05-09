@@ -5,11 +5,54 @@ postel_blend 42 3.0
 postel_capri 23 4.0
 postel_legendario 82 5.0
 postel_diplomatico 30 6.0
+postel_wakeup 32
+postel_samurai 48
+postel_toyota 57
+postel_kawasaki 36
+postel_kawaii 45
+postel_sleepyhead 91
+postel_jugemu 35
+postel_gokouno 45
+postel_surikire 55
+postel_kaijari 65
+postel_suigyono 75
+postel_suigyo 85
+postel_matsu 98
+postel_furaimatsu 97
+postel_unraimatsu 96
+postel_kuneru 94
+postel_tokoro 35
+postel_nisumu 34
+postel_yabura 28
+postel_koji 27
+postel_burakoji 45
+postel_paipopaipo 76
+postel_shuringan 34
+postel_shuringanno 37
+postel_gurindai 26
+postel_gurindaino 34
+postel_ponpokopi 47
+postel_ponpokona 43
+postel_chokyumeino 44
+postel_chosuke 38
 police_gimli 32 7.0
 police_legolas 40 8.0
 police_aragorn 22 9.0
 police_gandalf 21 10.0
 police_sauron 77 11.0
+police_bonk 59
+police_horni 47
+police_shelf 48
+police_thor 79
+police_ironman 75
+police_hawkeye 47
+police_blackwidow 73
+police_hulk 46
+police_loki 47
+police_odin 85
+police_heimdal 34
+police_menocht 97
+police_loop 54
 skrin_narnie 93 0.3
 skrin_pleb 34 1.3
 skrin_middlearth 84 2.3
@@ -18,6 +61,25 @@ pohovka_drake 21 4.3
 pohovka_draco 21 7.3
 pohovka_beyonce 88 8.3
 pohovka_kanye 14 9.3
+pohovka_gilgamesh 86
+pohovka_nate 69
+pohovka_higgers 96
+pohovka_lamanche 25
+pohovka_erika 88
+pohovka_lazytown 35
+pohovka_donald 36
+pohovka_genius 79
+pohovka_numlock 45
+pohovka_scrollock 36
+pohovka_pause 45
+pohovka_break 74
+pohovka_printscreen 42
+pohovka_nameless 14
+pohovka_signal 67
+pohovka_bookmark 47
+pohovka_major 54
+pohovka_lofi 47
+pohovka_relief 74
 stul_harry 81 10.3
 stul_potter 21 11.4
 stul_jinjer 66 0.4
@@ -35,6 +97,23 @@ zidle_nice 69 1.7
 zidle_henlo 72 2.7
 zidle_hame 67 3.7
 zidle_amogus 20 4.7
+zidle_konstruktor 58
+zidle_stable 97
+zidle_comfort 36
+zidle_agata 35
+zidle_4legs 68
+zidle_megumin 35
+zidle_lalatina 79
+zidle_aqua 34
+zidle_kazuma 78
+zidle_yunyun 36
+zidle_chunchunmaru 98
+zidle_chomusuke 23
+zidle_explosion 47
+zidle_victoria 74
+zidle_high 75
+zidle_miracle 32
+zidle_brilliant 57
 pribornik_jesus 67 7.7
 pribornik_alah 45 8.7
 kreslo_amanda 54 9.7
@@ -42,6 +121,21 @@ kreslo_mojzis 33 10.7
 kreslo_lipanek 90 11.7
 kreslo_albert 43 0.8
 kreslo_orb 77 1.8
+kreslo_adolf 14
+kreslo_albrecht 79
+kreslo_norbert 25
+kreslo_geass 58
+kreslo_erebor 47
+kreslo_gandalf 82
+kreslo_saruman 55
+kreslo_sauron 44
+kreslo_tessie 66
+kreslo_jessie 33
+kreslo_nessie 77
+kreslo_messi 45
+kreslo_aurora 55
+kreslo_borealis 79
+kreslo_australis 31
 lampa_bret 24 2.8
 lampa_bertos 13 3.8
 lampa_greg 88 4.8
@@ -62,3 +156,10 @@ obraz_davinci 43 10.11
 obraz_mucha 11 11.11
 obraz_king 42 0.12
 obraz_genz 78 1.12
+odpadkovy_kos_karel 42
+odpadkovy_kos_blm 20
+odpadkovy_kos_tyrone 25
+odpadkovy_kos_waste 36
+odpadkovy_kos_trash 14
+odpadkovy_kos_garbage 32
+odpadkovy_kos_collector 23

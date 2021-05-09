@@ -5,3 +5,5 @@ zidle_omitka
 lampa_greg
 postel_avanti
 stul_kebab
+pohovka_lofi
+zidle_chunchunmaru
