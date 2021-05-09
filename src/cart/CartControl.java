@@ -34,6 +34,7 @@ public class CartControl {
     public boolean cart_start;
     public boolean cart_busy;
     public CartContent content;
+    private String[] last_path;
 
     /**
     * CartControl Inicializace
@@ -110,8 +111,14 @@ public class CartControl {
     * @return Nejkratší cesta k cíli ve formě arraye prvků typu String představující souřadnice
     */
     public String[] findPath(int dst_x, int dst_y) {
-        this.dk = new PathFinder(this.map.getMap(), this.start_x, this.start_y, dst_x, dst_y);
-        return this.dk.Dijkstra();
+        try {
+            this.dk = new PathFinder(this.map.getMap(), this.start_x, this.start_y, dst_x, dst_y);
+            this.last_path = this.dk.Dijkstra();
+            return this.last_path;
+        }
+        catch (Exception e) {
+            return this.last_path;
+        }
     }
 
     /**
