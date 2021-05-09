@@ -245,8 +245,6 @@ public class main_controller {
                 int[] target_refresh = cnv.coordsInt(cart.current_path[0]); // Nacti cil z puvodni cesty
                 cart.current_path = cart.findPath(target_refresh[0], target_refresh[1]);    // Spocitej novou cestu z nove polohy do puvodniho cile
 
-
-                // System.out.println(Arrays.toString(cart.current_path)); // Testovaci vypis zbyvajici cesty
                 // Takhle se to chova, kdyz to dojede do cile -> Zustavaji v ceste 2 body
                 if (cart.current_path.length > 1) {
                 // Takze je porovnej, jestli jsou totozne a jestli jo, je vozik v cili a ukonci cyklus
@@ -336,8 +334,6 @@ public class main_controller {
 
                 return;
             }
-
-            System.out.println(cart.getPosition()[0]);
 
 
             if(cart.getPosition()[0] == row && cart.getPosition()[1] == column) {

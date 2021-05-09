@@ -1,6 +1,7 @@
 /**
+ * ConfirmBox
+ * Template for confirm window, takes text argument and name of the window as argument
  * author: Vojtěch Bůbela
- * login: xbubel08
  */
 
 import javafx.stage.*;
