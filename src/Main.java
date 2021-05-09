@@ -4,8 +4,6 @@
  * @author Vojtěch Bůbela <xbubel08>
  */
 
-package src.main;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
