@@ -68,6 +68,10 @@ public class WaitList {
     */
     public int WaitList_Len() {
 
-        return WaitList.length;
+        if(WaitList == null) {
+            return 0;
+        } else {
+            return WaitList.length ;
+        }
     }
 }

@@ -86,6 +86,9 @@ public class main_controller {
     private TextField free_forklifts;
 
     @FXML
+    private TextField pending_orders;
+
+    @FXML
     private TextField cart_status;
 
     private Timer timer;
@@ -483,11 +486,11 @@ public class main_controller {
 
                 map.mapSet(new_map);
 
-                int size = cart.free_carts.size();
+                int size = 0;
+                String str = null;
 
-                String str = String.valueOf(size);
+                size = cart.free_carts.size();
 
-                free_forklifts.setText(str);
 
                 if (size == 5) {
                     cart_status.setText("Vsechno bylo vyrizene");
@@ -495,6 +498,18 @@ public class main_controller {
                 else {
                     cart_status.setText("Objednavky se vyrizuji");
                 }
+
+                str = String.valueOf(size);
+
+                free_forklifts.setText(str);
+
+                size = wait_list.WaitList_Len();
+
+                str = String.valueOf(size);
+
+                pending_orders.setText(str);
+
+
 
                 Platform.runLater(() -> {
                     main_grid.getChildren().clear();
@@ -724,6 +739,13 @@ public class main_controller {
         free_forklifts.setText(String.valueOf(cart.free_carts.size()));
         cart_status.setText("Probiha inicializace...");
         
+
+        int size = wait_list.WaitList_Len();
+
+        String str = String.valueOf(size);
+
+        pending_orders.setText(str);
+
 
     }
 }   
